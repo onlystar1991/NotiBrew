@@ -38,11 +38,15 @@ class Distributor extends CI_Controller{
         $this->load->model('mdistributor');
         $this->load->helper('url');
         $this->load->library("pagination");
+        $this->load->library("session");
 
     }
 
     public function index() {
 
+        if (!$this->session->userdata('isSigned')) {
+            redirect('auth/index');
+        }
         $all_distributor = $this->getDistributorlist();
         $result_array = array();
         $this->data['distributors'] = array();

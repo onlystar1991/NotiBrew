@@ -32,10 +32,15 @@ class Order extends CI_Controller{
         $this->load->model('morder');
         $this->load->helper('url');
         $this->load->library("pagination");
+        $this->load->library("session");
 
     }
 
     public function index() {
+
+        if (!$this->session->userdata('isSigned')) {
+            redirect('auth/index');
+        }
 
         $all_orders = $this->getOrderlist();
         $result_array = array();

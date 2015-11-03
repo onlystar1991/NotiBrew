@@ -32,11 +32,15 @@ class Inventory extends CI_Controller{
         $this->load->model('minventory');
         $this->load->helper('url');
         $this->load->library("pagination");
+        $this->load->library("session");
 
     }
 
     public function index() {
-
+        if (!$this->session->userdata('isSigned')) {
+            redirect('auth/index');
+        }
+        
         $all_inventories = $this->getInventorylist();
         $result_array = array();
         $this->data['inventories'] = array();

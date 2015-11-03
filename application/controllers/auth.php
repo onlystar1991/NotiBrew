@@ -76,7 +76,7 @@ class Auth extends CI_Controller{
 
     public function  logout(){
         //TODO:  called when
-
+        $this->session->sess_destroy();
         $this->load->view('auth/signin');
     }
 

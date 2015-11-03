@@ -32,12 +32,17 @@ class Dashboard extends CI_Controller{
         //TODO:  Add extra constructor Code
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('morder');
+        $this->load->library("session");
         $this->load->helper('url');
 
     }
 
     public function index(){
         //TODO:  called when method name is requested.
+        if (!$this->session->userdata('isSigned')) {
+            redirect('auth/index');
+        }
+        
         $all_orders = $this->getOrderlist();
         
         $this->data['total_count'] = count($all_orders);

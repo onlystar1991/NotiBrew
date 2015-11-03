@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_base_url()?>/css/font-awesome.min.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="<?= asset_base_url()?>/css/app.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="<?= asset_base_url()?>/css/jquery-ui.css" media="screen"/>
+    <link media="screen" href="<?= asset_base_url()?>/css/chosen.min.css" type="text/css" rel="stylesheet">
+
     <!-- end of stylesheets -->
 
     <!-- Modernizr -->
@@ -36,11 +38,9 @@
                         <!-- Right Nav Section -->
                         <ul class="account right">
                             <li class="has-dropdown">
-                                <a href="#">John Doe</a>
+                                <a href="#"><?php echo $this->session->userdata('username'); ?></a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Account</a></li>
-                                    <li><a href="#">Settings</a></li>
-                                    <li><a href="#">Logout</a></li>
+                                    <li><a href="<?php echo base_url().'auth/logout'; ?>">Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
