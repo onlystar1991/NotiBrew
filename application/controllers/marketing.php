@@ -127,7 +127,7 @@ class Marketing extends CI_Controller{
             $marketing->marketing_video_url = $object->get("campaignVideoUrl");
             
             $this->data['marketing'] = $marketing;
-            $this->load->view("store/edit", $data);
+            $this->load->view("marketing/edit", $data);
         
     }
     public function save() {

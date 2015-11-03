@@ -5,7 +5,7 @@
 	    <div class="large-3 medium-3 column">
 	        <!-- #sidenav -->
 	        <ul id="sidenav" class="tabs vertical">
-	            <li class="tab-title active">
+	            <li class="tab-title ">
 	                <a class="tab-stores" href="<?= base_url()?>store" title="Stores">
 	                    <span class="icon"></span> Stores</a>
 	            </li>
@@ -25,7 +25,7 @@
 	                <a class="tab-distributor" href="<?= base_url()?>distributor" title="Distributor">
 	                    <span class="icon"></span> Distributor</a>
 	            </li>
-	            <li class="tab-title">
+	            <li class="tab-title active">
 	                <a class="tab-marketing" href="<?= base_url()?>marketing" title="Marketing">
 	                    <span class="icon"></span> Marketing</a>
 	            </li>
