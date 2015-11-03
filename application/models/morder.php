@@ -1,0 +1,29 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: win
+ * Date: 1/7/15
+ * Time: 9:35 PM
+ */
+
+use Parse\ParseException;
+use Parse\ParseObject;
+use Parse\ParseQuery;
+
+class MOrder extends CI_Model {
+
+    //show in index view
+    var $order_id;
+    var $order_customer_name;
+    var $order_date;
+    var $order_payment_method;
+    var $order_detail;
+    
+
+    //save date in parse db
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+}
