@@ -27,7 +27,7 @@ define('DIR_WRITE_MODE', 0777);
 |
 */
 
-define('PARSE_SDK_INC', $_SERVER['DOCUMENT_ROOT'].'/ci/parse-php-sdk-master/autoload.php');
+define('PARSE_SDK_INC', $_SERVER['DOCUMENT_ROOT'].'/parse-php-sdk-master/autoload.php');
 
 define('FOPEN_READ',							'rb');
 define('FOPEN_READ_WRITE',						'r+b');
