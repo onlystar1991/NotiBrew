@@ -20,18 +20,6 @@
 	                <a class="tab-orders" href="<?= base_url()?>order" title="Orders">
 	                    <span class="icon"></span> Orders</a>
 	            </li>
-	            <li class="tab-title">
-	                <a class="tab-dashboard" href="<?= base_url()?>dashboard" title="Dashboard">
-	                    <span class="icon"></span> Dashboard</a>
-	            </li>
-	            <li class="tab-title">
-	                <a class="tab-distributor" href="<?= base_url()?>distributor" title="Distributor">
-	                    <span class="icon"></span> Distributor</a>
-	            </li>
-	            <li class="tab-title">
-	                <a class="tab-marketing" href="<?= base_url()?>marketing" title="Marketing">
-	                    <span class="icon"></span> Marketing</a>
-	            </li>
 	        </ul>
 	        <!-- end of #sidenav -->
 	    </div>
@@ -350,7 +338,7 @@
                                     <img class="th photo" id="img_store_logo" src="<?php echo $store->store_logo; ?>" style="max-width: 70px !important; max-height: 70px !important;" alt="" title="Top Hops Beer Shop"/>
                                     <br/>
                                     <!-- Filename -->
-                                     <span class="photo-label">Logo</span> <!-- end of filename -->
+                                     <span class="photo-label" id="logo_title"><?php $res = explode("-", $store->store_logo); echo $res[count($res)-1]; ?></span> <!-- end of filename -->
 
                                      <!-- Delete action -->
                                      <a href="#" id="delete_store_logo" class="deleteImage" title="Delete (filename goes here)"><i class="fa fa-times"></i></a>
@@ -365,7 +353,7 @@
                                         <div class="photo-wrapper" style="width: 150px; min-height: 100px;">
 											<img class="th photo" id="img_store_image1" src="<?php echo $store->store_image1; ?>" style="max-width: 150px !important; max-height: 250px !important;" alt=""/>
                                             <!-- Filename -->
-                                             <span class="photo-label">Picture1</span> <!-- end of filename -->
+                                             <span class="photo-label" id="image1_title"><?php $res = explode("-", $store->store_image1); echo $res[count($res)-1]; ?></span> <!-- end of filename -->
                                              <!-- Delete action -->
                                              <a href="#" id="delete_store_image1" title="Delete (filename goes here)"><i class="fa fa-times"></i></a>
                                         </div> 
@@ -374,10 +362,9 @@
                                         	
                                             <img class="th photo" id="img_store_image2" src="<?php echo $store->store_image2; ?>" style="max-width: 150px !important; max-height: 250px !important;" alt=""/><br/>
                                             <!-- Filename -->
-                                            <span class="photo-label">Picture2</span> <!-- end of filename -->
-
+                                            <span class="photo-label" id="image2_title"><?php $res = explode("-", $store->store_image2); echo $res[count($res)-1]; ?></span>
                                              <!-- Delete action -->
-                                             <a href="#" id="delete_store_image2" class="deleteImage" title="Delete (filename goes here)"><i class="fa fa-times"></i></a>
+                                            <a href="#" id="delete_store_image2" class="deleteImage" title="Delete (filename goes here)"><i class="fa fa-times"></i></a>
                                         </div> 
                                     </article>
 
@@ -389,20 +376,17 @@
                                          <i class="fa fa-upload"></i>&nbsp;&nbsp;Upload image
                                     </a> <!-- end of upload image action -->
                                     <input type="file" name="store_icon" id="file_store_icon" style="display: none;">
+                                    <input type="hidden" id="deleteIcon" name="store_icon_delete" value=0 />
                                     <input type="file" name="store_image1" id="file_store_image1" style="display: none;">
+                                    <input type="hidden" id="deleteStoreImage1" name="store_image1_delete" value=0 />
                                     <input type="file" name="store_image2" id="file_store_image2" style="display: none;">
+                                    <input type="hidden" id="deleteStoreImage2" name="store_image2_delete" value=0 />
                                     <div id="file-upload-dialog" title="File Upload" style="display: none;">
-                                    	<div id="div-icon-upload" >
-											Store Icon: 
-										</div>
+                                    	<a href="#" id="div-icon-upload">Store Icon:</a>
 										<br>
-										<div id="div-image1-upload">
-											Store Image1: 
-										</div>
+										<a href="#" id="div-image1-upload">Store Image1:</a>
 										<br>
-										<div id="div-image2-upload">
-											Store Image2: 
-										</div>
+										<a href="#" id="div-image2-upload">Store Image2:</a>
 										<br>
 									</div>
                                 </article> <!-- end of store photos -->

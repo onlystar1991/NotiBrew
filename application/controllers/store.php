@@ -175,11 +175,22 @@ class Store extends CI_Controller{
         $store->set("fromSunday", $this->input->post("suFrom"));
         $store->set("toSunday", $this->input->post("suTo"));
 
+        if ($this->input->post("store_icon_delete") == 1) {
+            $store->set("storeIcon", null);
+        }
+        if ($this->input->post("store_image1_delete") == 1) {
+            $store->set("storeImage1", null);
+        }
+        if ($this->input->post("store_image2_delete") == 1) {
+            $store->set("storeImage2", null);
+        }
+
         if ($_FILES['store_icon']['name']) {
             $store_icon = ParseFile::createFromData(file_get_contents($_FILES['store_icon']['tmp_name']), $_FILES['store_icon']['name']);
             $store_icon->save();
             $store->set("storeIcon", $store_icon);
         }
+
         if ($_FILES['store_image1']['name']) {
             $store_image1 = ParseFile::createFromData(file_get_contents($_FILES['store_image1']['tmp_name']), $_FILES['store_image1']['name']);
             $store_image1->save();
@@ -190,6 +201,7 @@ class Store extends CI_Controller{
             $store_image2->save();
             $store->set("storeImage2", $store_image2);
         }
+
         try {
             $store->save();
             redirect("store/");

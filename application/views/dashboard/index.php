@@ -22,21 +22,6 @@
 	                    <span class="icon"></span> Orders
 	                </a>
 	            </li>
-	            <li class="tab-title">
-	                <a class="tab-dashboard" href="<?= base_url()?>dashboard" title="Dashboard">
-	                    <span class="icon"></span> Dashboard
-	                </a>
-	            </li>
-	            <li class="tab-title active">
-	                <a class="tab-distributor" href="<?= base_url()?>distributor" title="Distributor">
-	                    <span class="icon"></span> Distributor
-	                </a>
-	            </li>
-	            <li class="tab-title">
-	                <a class="tab-marketing" href="<?= base_url()?>marketing" title="Marketing">
-	                    <span class="icon"></span> Marketing
-	                </a>
-	            </li>
 	        </ul>
 	        <!-- end of #sidenav -->
 	    </div>
