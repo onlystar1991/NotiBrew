@@ -18,6 +18,9 @@ class MOrder extends CI_Model {
     var $order_date;
     var $order_payment_method;
     var $order_detail;
+    var $order_isAproved;
+    var $order_deniedReason;
+    
     
 
     //save date in parse db

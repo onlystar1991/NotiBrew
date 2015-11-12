@@ -135,8 +135,6 @@ class Auth extends CI_Controller{
                     $this->session->set_userdata('isSigned', true);
                     $this->session->set_userdata('userid',  ParseUser::getCurrentUser()->getObjectId());
                     $this->session->set_userdata('username', ParseUser::getCurrentUser()->getUsername());
-                    $this->session->set_userdata('profilePic', 'http://files.parsetfss.com/b56294c5-e2c0-4248-a5e2-a2f187ea5ff1/tfss-6dd72bed-731b-43fc-aa73-24e44fe368dc-profilePic.image');
-
                     redirect('/main/profile/'.ParseUser::getCurrentUser()->get('username'));                    
                 }
                 break;

@@ -42,6 +42,7 @@ class Store extends CI_Controller{
         if (!$this->session->userdata('isSigned')) {
             redirect('auth/index');
         }
+
         $all_stores = $this->getStorelist();
         $result_array = array();
         $this->data['stores'] = array();

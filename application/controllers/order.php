@@ -37,11 +37,10 @@ class Order extends CI_Controller{
     }
 
     public function index() {
-
+        
         if (!$this->session->userdata('isSigned')) {
             redirect('auth/index');
         }
-
         $all_orders = $this->getOrderlist();
         $result_array = array();
         $this->data['orders'] = array();
@@ -71,8 +70,27 @@ class Order extends CI_Controller{
         
         $this->data['orders'] = $result_array;
         $this->data['page'] = "order";
-        $this->load->view('order/index', $data);
 
+        $permission = $this->session->userdata("permission");
+        if ($permission == "retailer") {
+            $this->load->view('order/index', $data);
+        } else if ($permission == "distributor") {
+            $this->load->view('order/distributor_order', $data);
+        } else {
+            die("invalid permission");
+        }
+    }
+
+    public function action_approve() {
+     
+        $id = $this->input->post("order_id");
+
+        $result = array();
+        $result['id'] = $id;
+        $result['result'] = success;
+
+        echo json_encode($result);
+        exit;
     }
     
     private function getOrderlist() {
@@ -97,6 +115,10 @@ class Order extends CI_Controller{
             $order->order_date = $object->getCreatedAt()->format('Y-m-d');
 
             $order->order_detail = $object->get("beerDescription");
+
+            $order->order_isAproved = $object->get("isApproved");
+
+            $order->order_deniedReason = $object->get("deniedReason");
 
             $resultArray[] = $order;
         }
