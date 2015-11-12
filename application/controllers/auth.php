@@ -60,7 +60,7 @@ class Auth extends CI_Controller{
                     $user = ParseUser::getCurrentUser();
                     $permission = $user->get("permission");
                     $username = $user->get("username");
-
+                    
                     redirect('/store', 'get');
                 }
                 break;
@@ -84,11 +84,14 @@ class Auth extends CI_Controller{
         //TODO:  callback function when validate the form
 
         $username = $this->input->post('username');
+        
         try{
             $user = ParseUser::logIn($username, $password);
             $this->session->set_userdata('isSigned', true);
             $this->session->set_userdata('userid', $user->getObjectId());
             $this->session->set_userdata('username', $user->getUsername());
+            $this->session->set_userdata('permission', $user->get("permission"));
+
             if($user->get('userphoto') == null)
                 $this->session->set_userdata('userphoto', 'http://files.parsetfss.com/b56294c5-e2c0-4248-a5e2-a2f187ea5ff1/tfss-6dd72bed-731b-43fc-aa73-24e44fe368dc-profilePic.image');
             else

@@ -37,9 +37,9 @@
 			<fieldset>
 				<?php echo (validation_errors() != '') ? "<div class='alert'>Invalid Login.</div>" : "" ; ?>
 				<div class="fields">
-					<input name="username" placeholder="Username" id="id_username" tabindex="1" type="text">
+					<input name="username" placeholder="Username" id="id_username" tabindex="1" type="text" text="" placeholder="User Name" >
 
-					<input name="password" placeholder="Password" id="id_password" tabindex="2" type="password">
+					<input name="password" placeholder="Password" id="id_password" tabindex="2" type="password" text="" placeholder="Password">
 				</div>
 				<input type="hidden" name="type" value=0 />
 				<a href="#" title="" tabindex="3" class="forgot-password">Forgot?</a>

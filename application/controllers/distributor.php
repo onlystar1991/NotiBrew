@@ -76,6 +76,7 @@ class Distributor extends CI_Controller{
         }
         
         $this->data['distributors'] = $result_array;
+        $this->data['page'] = "distributor";
 
         $this->load->view('distributor/index', $data);
 

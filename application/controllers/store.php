@@ -69,7 +69,8 @@ class Store extends CI_Controller{
             }
         }
 
-        $this->data['stores'] =& $result_array;
+        $this->data['stores'] = $result_array;
+        $this->data['page'] = "store";
         $this->load->view('store/index', $data);
 
     }

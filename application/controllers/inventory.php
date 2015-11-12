@@ -69,6 +69,7 @@ class Inventory extends CI_Controller{
         }
         
         $this->data['inventories'] = $result_array;
+        $this->data['page'] = "inventory";
 
         $this->load->view('inventory/index', $data);
 

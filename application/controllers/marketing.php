@@ -69,6 +69,8 @@ class Marketing extends CI_Controller{
         }
 
         $this->data['marketings'] = $result_array;
+        $this->data['page'] = "marketing";
+
         $this->load->view('marketing/index', $data);
     }
     

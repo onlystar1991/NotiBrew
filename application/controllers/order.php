@@ -70,7 +70,7 @@ class Order extends CI_Controller{
         }
         
         $this->data['orders'] = $result_array;
-
+        $this->data['page'] = "order";
         $this->load->view('order/index', $data);
 
     }

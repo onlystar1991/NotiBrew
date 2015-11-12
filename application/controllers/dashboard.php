@@ -49,6 +49,8 @@ class Dashboard extends CI_Controller{
 
         $this->data['orders'] = $all_orders;
 
+        $this->data['page'] = "dashboard";
+
         $this->load->view('dashboard/index', $data);
     }
 
