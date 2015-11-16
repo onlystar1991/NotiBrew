@@ -85,7 +85,7 @@ class Order extends CI_Controller{
         $id = $this->input->post("order_id");
         try {
             $query = new ParseQuery("MyOrders");
-            $order = $query->get($Id);
+            $order = $query->get($id);
             $order->set("isApproved", true);
             $result = array();
             $order->save();
@@ -107,7 +107,7 @@ class Order extends CI_Controller{
         
         try {
             $query = new ParseQuery("MyOrders");
-            $order = $query->get($Id);
+            $order = $query->get($id);
             $order->set("isApproved", false);
             $order->set("deniedReason", $reason);
             $result = array();
