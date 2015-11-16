@@ -36,6 +36,7 @@ class Distributor extends CI_Controller{
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('mdistributor');
+        $this->load->model('morder');
         $this->load->helper('url');
         $this->load->library("pagination");
         $this->load->library("session");
@@ -47,39 +48,46 @@ class Distributor extends CI_Controller{
         if (!$this->session->userdata('isSigned')) {
             redirect('auth/index');
         }
-        $all_distributor = $this->getDistributorlist();
-        $result_array = array();
-        $this->data['distributors'] = array();
-        $config = array();
-        $config["base_url"] = base_url() . "distributor";
-        $config["total_rows"] = count($all_distributor);
-        $config["per_page"] = 10;
-        $config["uri_segment"] = 2;
 
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+        if ($this->session->userdata("permission") == "distributor") {
+            $all_deliveries = $this->getAllDeliveries();
 
-        $str_links = $this->pagination->create_links();
+        } else {
 
-        $this->data['links'] = explode('&nbsp;',$str_links );
+            $all_distributor = $this->getDistributorlist();
+            $result_array = array();
+            $this->data['distributors'] = array();
+            $config = array();
+            $config["base_url"] = base_url() . "distributor";
+            $config["total_rows"] = count($all_distributor);
+            $config["per_page"] = 10;
+            $config["uri_segment"] = 2;
 
-        for ($i = $page; $i < ($page + 4); $i++) {
-            try {
-                if ($all_distributor[$i]) {
-                    $result_array[] = $all_distributor[$i];    
-                } else {
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+            $str_links = $this->pagination->create_links();
+
+            $this->data['links'] = explode('&nbsp;',$str_links );
+
+            for ($i = $page; $i < ($page + 4); $i++) {
+                try {
+                    if ($all_distributor[$i]) {
+                        $result_array[] = $all_distributor[$i];    
+                    } else {
+                        break;
+                    }
+                } catch (Exception $e) {
                     break;
                 }
-            } catch (Exception $e) {
-                break;
             }
+            
+            $this->data['distributors'] = $result_array;
+            $this->data['page'] = "distributor";
+
+            $this->load->view('distributor/index', $data);
+
         }
-        
-        $this->data['distributors'] = $result_array;
-        $this->data['page'] = "distributor";
-
-        $this->load->view('distributor/index', $data);
-
     }
     
     private function getDistributorlist() {
@@ -99,6 +107,20 @@ class Distributor extends CI_Controller{
             $resultArray[] = $distributor;
         }
         return $resultArray;
+    }
+
+    private function getAllDeliveries() {
+        $query = new ParseQuery("MyOrders");
+        
+        $query->equalTo("isApproved", true);
+
+        $distributors = $query->find();
+
+        try {
+
+        } catch (ParseException $ex) {
+            
+        }
     }
 
     public function view($id = "") {
@@ -123,13 +145,10 @@ class Distributor extends CI_Controller{
                 $mbeer->beer_delivery_price = $beer->get("beerDeliveryPrice");
                 $resultArray[] = $mbeer;
             }
-
             $this->data['beers'] = $resultArray;
-            
         } catch (ParseException $ex) {
             $this->data['beers'] = array();
         }
-
         $this->load->view('distributor/view', $data);
     }
 }

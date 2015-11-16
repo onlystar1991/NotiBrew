@@ -33,7 +33,6 @@ class Order extends CI_Controller{
         $this->load->helper('url');
         $this->load->library("pagination");
         $this->load->library("session");
-
     }
 
     public function index() {
@@ -84,15 +83,47 @@ class Order extends CI_Controller{
     public function action_approve() {
      
         $id = $this->input->post("order_id");
-
-        $result = array();
-        $result['id'] = $id;
-        $result['result'] = success;
-
+        try {
+            $query = new ParseQuery("MyOrders");
+            $order = $query->get($Id);
+            $order->set("isApproved", true);
+            $result = array();
+            $order->save();
+            $result['id'] = $id;
+            $result['result'] = 'success';
+        } catch (ParseException $ex) {
+            $result['id'] = $id;
+            $result['result'] = 'fail';
+        }
         echo json_encode($result);
         exit;
     }
     
+
+    public function action_deny() {
+     
+        $id = $this->input->post("order_id");
+        $reason = $this->input->post("reason");
+        
+        try {
+            $query = new ParseQuery("MyOrders");
+            $order = $query->get($Id);
+            $order->set("isApproved", false);
+            $order->set("deniedReason", $reason);
+            $result = array();
+            $order->save();
+            $result['id'] = $id;
+            $result['result'] = 'success';
+            $result['reason'] = $reason;
+        } catch (ParseException $ex) {
+            $result['id'] = $id;
+            $result['result'] = 'fail';
+        }
+
+        echo json_encode($result);
+        exit;
+    }
+
     private function getOrderlist() {
        
         $query = new ParseQuery("MyOrders");

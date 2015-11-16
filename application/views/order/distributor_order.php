@@ -57,7 +57,7 @@
                                                         <a class="button secondary action_approve" value="<?php echo $order->order_id; ?>" href="#" title="Approve">Approve</a> <!-- end of: Approve action -->
                                                     </li>
                                                     <li> <!-- Deny action -->
-                                                        <a class="button action_deny" href="#" title="Deny">Deny</a> <!-- end of: Deny action -->
+                                                        <a class="button action_deny" href="#" data-reveal-id="deniedReason"  value="<?php echo $order->order_id; ?>" title="Deny">Deny</a> <!-- end of: Deny action -->
                                                     </li>
                                                 </ul>
 
@@ -94,6 +94,16 @@
 			<!-- end of tabs content -->
 	    </div>
 	</main>
+
+    <div id="deniedReason" class="reveal-modal text-center" data-reveal aria-labelledby="orderTitle" aria-hidden="true" role="dialog">
+        
+        <img class="favicon" src="<?php echo asset_base_url();?>/images/favicon.png" alt="notibrew" title="notibrew"/>
+        <label> Why do you deny this order?
+            <br>
+            <input type="text" required id="denied_reason" placeholder="Denied Reason Here..." />
+        </label>
+        <a class="button secondary denyWithReasonButton" value="<?php echo $order->order_id; ?>" href="#" title="Approve">Deny</a>
+    </div>
     
 
 <?php
@@ -109,14 +119,39 @@
                 dataTyep: "JSON",
                 type: "POST",
                 success: function(response) {
-                    res = $.parseJSON(response);                    
-                    if (res.result == "success") {
-                        $("#td-"+ res.id).addClass("status-approved").html("approved");
+                    if (response.result == "success") {
+                        $("#td-"+ response.id).addClass("status-approved").html("approved");
                     }
                 }
             });
             e.preventDefault();
         });
+        var orderId = "";
+        var deniedReason = "";
+        $(".action_deny").click(function(e) {
+            
+            orderId = $(this).attr('value');
+            $("#denied_reason").val("");
+            e.preventDefault(); 
+        });
 
+        $(".denyWithReasonButton").click(function(e) {
+            deniedReason = $("#denied_reason").val();
+            
+            $.ajax({
+                url: "<?= base_url().'order/action_deny' ?>",
+                data: {order_id: orderId, reason:deniedReason},
+                dataType: "JSON",
+                type: "POST",
+                success: function(resp) {
+                    $("#deniedReason").foundation('reveal', 'close');
+                    
+                    if (resp.result == "success") {
+                        $("#td-"+ resp.id).addClass("").html("Denied :" + resp.reason);
+                    }
+                }
+            });
+            e.preventDefault();
+        });
     })
 </script>

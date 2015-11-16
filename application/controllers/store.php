@@ -27,7 +27,6 @@ class Store extends CI_Controller{
 
     public function __construct() {
 
-        
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('mstore');
