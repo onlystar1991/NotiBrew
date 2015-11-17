@@ -47,8 +47,9 @@
                         		
                                     <?php 
                                         if (!$order->order_isAproved) {
-                                            if ($order->order_isAproved != null) echo "<td class=''>Denied :".$order->order_deniedReason."</td>" ;
-                                            else
+                                            if ($order->order_deniedReason) {
+                                                echo "<td class=''>Denied :".$order->order_deniedReason."</td>" ;
+                                            } else {
                                             ?>
 
                                             <td class="table--dsh__action" id="td-<?php echo $order->order_id; ?>">
@@ -62,6 +63,7 @@
                                                 </ul>
 
                                             <?php
+                                            }
 
                                         } else {
 
@@ -119,8 +121,12 @@
                 dataTyep: "JSON",
                 type: "POST",
                 success: function(response) {
-                    if (response.result == "success") {
-                        $("#td-"+ response.id).addClass("status-approved").html("approved");
+                    var data = JSON.parse(response);
+                    console.log(data.result);
+
+                    if (data.result == "success") {
+                        console.log(data);
+                        $("#td-"+ data.id).addClass("status-approved").html("approved");
                     }
                 }
             });
@@ -137,7 +143,10 @@
 
         $(".denyWithReasonButton").click(function(e) {
             deniedReason = $("#denied_reason").val();
-            
+            if ($.trim(deniedReason) == "") {
+                alert("Please input Deny Reason");
+                return false;  
+            } 
             $.ajax({
                 url: "<?= base_url().'order/action_deny' ?>",
                 data: {order_id: orderId, reason:deniedReason},
@@ -145,7 +154,6 @@
                 type: "POST",
                 success: function(resp) {
                     $("#deniedReason").foundation('reveal', 'close');
-                    
                     if (resp.result == "success") {
                         $("#td-"+ resp.id).addClass("").html("Denied :" + resp.reason);
                     }
