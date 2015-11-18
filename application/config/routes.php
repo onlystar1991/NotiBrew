@@ -59,6 +59,11 @@ $route['order/(:num)'] = "order/index/(:num)";
 $route['order/edit/(:val)'] = "order/edit/(:val)";
 $route['order/delete/(:val)'] = "order/delete/(:val)";
 
+$route['distributor/index'] = "distributor/index";
+$route['distributor/(:num)'] = "distributor/index/(:num)";
+$route['distributor/edit/(:val)'] = "distributor/edit/(:val)";
+$route['distributor/delete/(:val)'] = "distributor/delete/(:val)";
+
 /* End of file routes.php */
 
 

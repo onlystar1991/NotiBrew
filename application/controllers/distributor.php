@@ -25,7 +25,7 @@ class Beer {
     var $beer_delivery_price;
 }
 
-class Distributor extends CI_Controller{
+class Distributor extends CI_Controller {
 
     private static $app_id     =   'upTrZvYWTbzoZKTI9Up9uGWYHiamL3LCWNvfiTrx';
     private static $rest_key   =   'NUyL27OK8vIdZGtiqwskfVyPAiCT0Z6zCm7d3NXG';
@@ -36,6 +36,7 @@ class Distributor extends CI_Controller{
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('mdistributor');
+        $this->load->model('mdelivery');
         $this->load->model('morder');
         $this->load->helper('url');
         $this->load->library("pagination");
@@ -52,6 +53,36 @@ class Distributor extends CI_Controller{
         if ($this->session->userdata("permission") == "distributor") {
             $all_deliveries = $this->getAllDeliveries();
 
+            $result_array = array();
+            $this->data['distributors'] = array();
+            $config = array();
+            $config["base_url"] = base_url() . "distributor";
+            $config["total_rows"] = count($all_deliveries);
+            $config["per_page"] = 4;
+            $config["uri_segment"] = 2;
+
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+
+            $str_links = $this->pagination->create_links();
+
+            $this->data['links'] = explode('&nbsp;',$str_links );
+
+            for ($i = $page; $i < ($page + 4); $i++) {
+                try {
+                    if ($all_deliveries[$i]) {
+                        $result_array[] = $all_deliveries[$i];    
+                    } else {
+                        break;
+                    }
+                } catch (Exception $e) {
+                    break;
+                }
+            }
+
+            $this->data['distributors'] = $result_array;
+            $this->data['page'] = "distributor";
+            $this->load->view('distributor/delivery', $data);
         } else {
 
             $all_distributor = $this->getDistributorlist();
@@ -114,13 +145,38 @@ class Distributor extends CI_Controller{
         
         $query->equalTo("isApproved", true);
 
-        $distributors = $query->find();
+        $query->includeKey("storeId");
 
-        try {
+        $result = $query->find();
 
-        } catch (ParseException $ex) {
+        $resultArray = array();
+
+        for($i = 0; $i < count($result); $i++) {
             
+
+            //How to use Pointer in Parse SDK
+
+            $object = $result[$i];
+
+            $delivery = new MDelivery();
+            $delivery->delivery_id = $object->getObjectId();
+
+            try {
+                $res = $object->get("storeId")->get('storeName');
+                $delivery->delivery_store = $res;
+            } catch (ParseException $ex) {
+                var_dump($ex);
+                die ;
+            }
+
+            $delivery->delivery_price = $object->get("beerTaxPrice") + $object->get("beerDeliveryPrice");
+
+            $delivery->delivery_eta = date_format($object->get("deliveryDate"), "Y/m/d H:i:s");
+            
+            $resultArray[] = $delivery;
         }
+
+        return $resultArray;
     }
 
     public function view($id = "") {
