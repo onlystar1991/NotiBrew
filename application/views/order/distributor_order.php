@@ -41,9 +41,22 @@
                         		<td>
                         			<?php echo $order->order_payment_method; ?>
                         		</td>
-                                <td>
-                                    Details
-                                </td>
+                                <?php
+                                    if (!$order->order_isAproved) {
+                                        if (!$order->order_deniedReason) {
+                                            ?>
+                                            <td class="status-waiting">waiting for delivery and pickup</td>
+                                            <?php
+                                        } 
+                                    ?>
+                                    <?php
+                                    } else {
+                                        ?>
+                                        <td class="has-details">
+                                                <a href="#" title="Details">details</a></td> <!-- end of: Details -->
+                                        <?php
+                                    } 
+                                ?>
                         		
                                     <?php 
                                         if (!$order->order_isAproved) {
