@@ -35,7 +35,7 @@
                                             <?php echo $distributor->delivery_store; ?>
                                         </td>
                                         <td>
-                                            <?php echo $distributor->delivery_price; ?>
+                                            $<?php echo $distributor->delivery_price; ?>
                                         </td>
                                         <td>
                                             <?php echo $distributor->delivery_eta; ?>

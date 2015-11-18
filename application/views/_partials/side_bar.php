@@ -15,7 +15,7 @@
 	            <span class="icon"></span> Orders</a>
 	    </li>
 	    <li class="tab-title <?php echo ($this->data['page'] == 'distributor')? 'active': ''; ?>">
-	        <a class="tab-orders" href="<?= base_url()?>distributor" title="Orders">
+	        <a class="tab-distributor" href="<?= base_url()?>distributor" title="Distributor">
 	            <span class="icon"></span> <?php echo ($this->session->userdata("permission") == "distributor") ? "Deliver" : "Distributor" ?>
 	        </a>
 	    </li>
