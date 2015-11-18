@@ -171,7 +171,7 @@ class Distributor extends CI_Controller {
 
             $delivery->delivery_price = $object->get("beerTaxPrice") + $object->get("beerDeliveryPrice");
 
-            $delivery->delivery_eta = date_format($object->get("deliveryDate"), "Y/m/d H:i:s");
+            $delivery->delivery_eta = date_format($object->get("deliveryDate"), "d/m/Y");
             
             $resultArray[] = $delivery;
         }
