@@ -45,15 +45,15 @@
                                     if (!$order->order_isAproved) {
                                         if (!$order->order_deniedReason) {
                                             ?>
-                                            <td class="status-waiting">waiting for delivery and pickup</td>
+                                            <td id="td-detail-<?php echo $order->order_id; ?>" class="has-details"><a href="#" data-reveal-id="orderDetails<?php echo $order->order_id; ?>" title="details">details</a></td>
                                             <?php
                                         } 
                                     ?>
                                     <?php
                                     } else {
                                         ?>
-                                        <td class="has-details">
-                                                <a href="#" title="Details">details</a></td> <!-- end of: Details -->
+                                        <td id="td-detail-<?php echo $order->order_id; ?>" class="status-waiting" >
+                                                <a href="#" title="Details">waiting for delivery and pickup</a></td> <!-- end of: Details -->
                                         <?php
                                     } 
                                 ?>
@@ -119,8 +119,46 @@
         </label>
         <a class="button secondary denyWithReasonButton" value="<?php echo $order->order_id; ?>" href="#" title="Approve">Deny</a>
     </div>
-    
 
+    <?php
+    foreach ($orders as $order) {
+        ?>
+            <div id="orderDetails<?php echo $order->order_id;?>" class="reveal-modal text-center" data-reveal aria-labelledby="orderTitle"
+            aria-hidden="true" role="dialog">
+            
+            <!-- Store icon: favicon.png -->
+            <img class="favicon" src="<?php echo asset_base_url();?>/images/favicon.png" alt="notibrew" title="notibrew"/> <!-- end of store icon -->
+            
+            <!-- Title message -->
+            <h4 id="orderTitle" class="title">Order Details</h4> <!-- end of title message -->
+            
+            <!-- Order summary -->
+            <table class="order-summary">
+                <thead>
+                    <tr>
+                        <th>Beer Name</th>
+                        <th>Price</th>
+                        <th class="text-right">Qty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- Beer name -->
+                        <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                        
+                        <!-- Price -->
+                        <td>$<?php echo $order->order_beer_price; ?></td> <!-- end of price -->
+                        
+                        <!-- Quantity -->
+                        <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                    </tr>
+                </tbody>
+            </table> <!-- end of order summary -->
+        </div>
+        <?php
+    }
+    ?>
+    
 <?php
 	$this->load->view("_partials/footer.php");
 ?>
@@ -140,6 +178,8 @@
                     if (data.result == "success") {
                         console.log(data);
                         $("#td-"+ data.id).addClass("status-approved").html("approved");
+
+                        $("#td-detail-" + data.id).html('<a href="#" title="Details">waiting for delivery and pickup</a>')
                     }
                 }
             });

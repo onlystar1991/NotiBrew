@@ -20,6 +20,9 @@ class MInventory extends CI_Model {
     var $inventory_demand; //Store Icon
     var $inventory_price;
 
+    var $inventory_in_stock;
+    var $inventory_arrive_date;
+
     public function __construct()
     {
         parent::__construct();

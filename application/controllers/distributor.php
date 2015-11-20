@@ -179,6 +179,32 @@ class Distributor extends CI_Controller {
         return $resultArray;
     }
 
+    public function save_eta() {
+
+        $id = $this->input->post("delivery_id");
+        $date = $this->input->post("value");
+        try {
+            $query = new ParseQuery("MyOrders");
+            $order = $query->get($id);
+            
+            //This is formatting date for saving date type in parse db
+            $saveDate = date("Y-m-d", strtotime($date));
+            $saveDate = DateTime::createFromFormat("Y-m-d", $saveDate);
+            $order->set("deliveryDate", $saveDate);
+            
+            $result = array();
+            $order->save();
+            $result['id'] = $id;
+            $result['result'] = 'success';
+        } catch (ParseException $ex) {
+            $result['id'] = $id;
+            $result['result'] = 'fail';
+        }
+        
+        echo json_encode($result);
+        exit;
+    }
+
     public function view($id = "") {
 
         $query = new ParseQuery("Distributor");

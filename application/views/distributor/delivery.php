@@ -38,8 +38,8 @@
                                             $<?php echo $distributor->delivery_price; ?>
                                         </td>
                                         <td>
-                                            <?php echo $distributor->delivery_eta; ?>
-                                        </td>
+                                            <input type="date" class="delivery_eta" text="<?php echo $distributor->delivery_id; ?>" value="<?php echo $distributor->delivery_eta; ?>">
+                                        </td> 
                                     </tr>
                                     <?php
                                 }
@@ -80,3 +80,28 @@
 <?php
 	$this->load->view("_partials/footer.php");
 ?>
+
+<script>
+    $(function() {
+
+        $(".delivery_eta").datepicker();
+        
+        $(".delivery_eta").change(function() {
+            var delivery_id = $(this).attr("text");
+
+            $.ajax({
+                url: "<?= base_url().'distributor/save_eta' ?>",
+                data: {delivery_id: delivery_id, value: $(this).val()},
+                dataTyep: "JSON",
+                type: "POST",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    console.log(data.result);
+                    if (data.result == "success") {
+                        console.log(data);
+                    }
+                }
+            });
+        });
+    })
+</script>

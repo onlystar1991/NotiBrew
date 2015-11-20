@@ -71,8 +71,11 @@ class Inventory extends CI_Controller{
         $this->data['inventories'] = $result_array;
         $this->data['page'] = "inventory";
 
-        $this->load->view('inventory/index', $data);
-
+        if ($permission == "retailer") {
+            $this->load->view('inventory/index', $data);
+        } else {
+            $this->load->view('inventory/distributor', $data);
+        }
     }
     
     private function getInventorylist() {
@@ -91,6 +94,9 @@ class Inventory extends CI_Controller{
             $inventory->inventory_quantity = $object->get("inventoryQuantity");
             $inventory->inventory_demand = $object->get("inventoryDemand");
             $inventory->inventory_price = $object->get("inventoryPrice");
+
+            $inventory->inventory_in_stock = $object->get("inStock");
+            $inventory->inventory_arrive_date = date_format($object->get("arriveDate"), "d/m/Y");
 
             $resultArray[] = $inventory;
         }
@@ -126,7 +132,6 @@ class Inventory extends CI_Controller{
             $minventory->inventory_demand = $inventory->get("inventoryDemand");
             $minventory->inventory_price = $inventory->get("inventoryPrice");
 
-            
             $this->data['inventory'] = $minventory;
             $this->load->view("inventory/edit", $data);
         }

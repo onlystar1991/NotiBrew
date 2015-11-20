@@ -19,7 +19,7 @@ use Parse\ParseQuery;
 use Parse\ParseFile;
 
 
-class Order extends CI_Controller{
+class Order extends CI_Controller {
 
     private static $app_id     =   'upTrZvYWTbzoZKTI9Up9uGWYHiamL3LCWNvfiTrx';
     private static $rest_key   =   'NUyL27OK8vIdZGtiqwskfVyPAiCT0Z6zCm7d3NXG';
@@ -40,6 +40,7 @@ class Order extends CI_Controller{
         if (!$this->session->userdata('isSigned')) {
             redirect('auth/index');
         }
+
         $all_orders = $this->getOrderlist();
         $result_array = array();
         $this->data['orders'] = array();
@@ -150,6 +151,13 @@ class Order extends CI_Controller{
             $order->order_isAproved = $object->get("isApproved");
 
             $order->order_deniedReason = $object->get("deniedReason");
+
+            $order->order_beer_name = $object->get("beerTitle");
+            
+            $order->order_beer_price = $object->get("beerItemPrice");
+            
+            $order->order_beer_qty = $object->get("count");
+
 
             $resultArray[] = $order;
         }
