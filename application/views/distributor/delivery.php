@@ -38,7 +38,7 @@
                                             $<?php echo $distributor->delivery_price; ?>
                                         </td>
                                         <td>
-                                            <input type="date" class="delivery_eta" text="<?php echo $distributor->delivery_id; ?>" value="<?php echo $distributor->delivery_eta; ?>">
+                                            <input type="text" class="delivery_eta" text="<?php echo $distributor->delivery_id; ?>" value="<?php echo $distributor->delivery_eta; ?>">
                                         </td> 
                                     </tr>
                                     <?php
