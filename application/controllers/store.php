@@ -123,7 +123,6 @@ class Store extends CI_Controller{
             $mstore->store_from_monday = $store->get("fromMonday");
             $mstore->store_to_monday = $store->get("toMonday");
 
-
             $mstore->store_from_tuesday = $store->get("fromTuesday");
             $mstore->store_to_tuesday = $store->get("toTuesday");
             $mstore->store_from_wednesday = $store->get("fromWednesday");

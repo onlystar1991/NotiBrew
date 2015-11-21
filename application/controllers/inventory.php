@@ -97,10 +97,8 @@ class Inventory extends CI_Controller{
 
             $inventory->inventory_in_stock = $object->get("inStock");
             $inventory->inventory_arrive_date = date_format($object->get("arriveDate"), "d/m/Y");
-
             $resultArray[] = $inventory;
         }
-
         return $resultArray;
     }
 
@@ -154,6 +152,30 @@ class Inventory extends CI_Controller{
             redirect("inventory/");
         } catch (ParseException $ex) {
             die("Exception Occured :".$ex->getMessage());
+        }
+    }
+
+    public function saveBeer() {
+        $sku = $this->input->post("sku");
+        $price = $this->input->post("price");
+        $name = $this->input->post("name");
+        $distributor = $this->input->post("distributor");
+        $quantity = $this->input->post("quantity");
+        $demand = $this->input->post("demand");
+
+        $inventory = new ParseObject("Inventory");
+        
+        $inventory->set("inventorySku", $sku);
+        $inventory->set("inventoryPrice", "$".$price);
+        $inventory->set("inventoryName", $name);
+        $inventory->set("inventoryDistributor", $distributor);
+        $inventory->set("inventoryQuantity", (int)$quantity);
+        $inventory->set("inventoryDemand", (int)$demand);
+        try {
+            $inventory->save();
+            redirect("inventory");
+        } catch (ParseException $e) {
+            die(var_dump($e));
         }
     }
 }
