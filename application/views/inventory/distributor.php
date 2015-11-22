@@ -77,15 +77,17 @@
                         </table>
                     </form>
                     <!-- Stores pagination -->
-	                <div id="pagination" class="pagination-centered" style="width: auto; height: auto;">
-	                    <ul class="tsc_pagination" style="height: auto; width: 50%; margin: auto;">
-	                        <?php 
-		                        foreach ($this->data['links'] as $link) {
-		                            echo "<li>". $link."</li>";
-		                        }
-		                    ?>
-	                    </ul>
-	                </div>
+                        <a class="button alert" href="#" title="Edit" style="margin-left: 76%;position: absolute;"><i class="fa fa-pencil"></i> Edit</a>
+                        
+                        <div id="pagination" class="pagination-centered" style="width: auto; height: auto;">
+                            <ul class="tsc_pagination" style="height: auto; width: 50%; margin: auto;">
+                                <?php 
+        	                        foreach ($this->data['links'] as $link) {
+        	                            echo "<li>". $link."</li>";
+        	                        }
+        	                    ?>
+                            </ul>
+                        </div>
                 </div>
 
 	        </div>
@@ -117,7 +119,7 @@
                             "</td>" +
                         
                             "<td>" +
-                                "<input type='text' id='td-quantity' value='' name='quantity' />" +
+                                "<input type='number' id='td-quantity' value='' name='quantity' />" +
                             "</td>" +
                         
                             "<td>" +
