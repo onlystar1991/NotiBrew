@@ -47,7 +47,7 @@ class Inventory extends CI_Controller{
         $config = array();
         $config["base_url"] = base_url() . "inventory";
         $config["total_rows"] = count($all_inventories);
-        $config["per_page"] = 4;
+        $config["per_page"] = 2;
         $config["uri_segment"] = 2;
 
         $this->pagination->initialize($config);
@@ -56,7 +56,7 @@ class Inventory extends CI_Controller{
         $str_links = $this->pagination->create_links();
         $this->data['links'] = explode('&nbsp;',$str_links );
 
-        for ($i = $page; $i < ($page + 4); $i++) {
+        for ($i = $page; $i < ($page + 2); $i++) {
             try {
                 if ($all_inventories[$i]) {
                     $result_array[] = $all_inventories[$i];    
@@ -114,12 +114,14 @@ class Inventory extends CI_Controller{
         }
     }
 
-    public function edit($sId = "") {
-        if (!$sId) {
+    public function edit($fId = "", $sId = "") {
+        if (!$fId) {
             redirect("inventory/");
         } else {
             $query = new ParseQuery("Inventory");
-            $inventory = $query->get($sId);
+            $resultArray = array();
+
+            $inventory = $query->get($fId);
 
             $minventory = new MInventory();
             $minventory->inventory_id = $inventory->getObjectId();
@@ -128,27 +130,64 @@ class Inventory extends CI_Controller{
             $minventory->inventory_distributor = $inventory->get("inventoryDistributor");
             $minventory->inventory_quantity = $inventory->get("inventoryQuantity");
             $minventory->inventory_demand = $inventory->get("inventoryDemand");
-            $minventory->inventory_price = $inventory->get("inventoryPrice");
+            $minventory->inventory_price = $inventory->get("inventoryPrice");    
 
-            $this->data['inventory'] = $minventory;
+            $resultArray[] = $minventory;
+
+            if ($sId) {
+                $inventory1 = $query->get($sId);
+
+                $minventory1 = new MInventory();
+                $minventory1->inventory_id = $inventory1->getObjectId();
+                $minventory1->inventory_name = $inventory1->get("inventoryName");
+                $minventory1->inventory_sku = $inventory1->get("inventorySku");
+                $minventory1->inventory_distributor = $inventory1->get("inventoryDistributor");
+                $minventory1->inventory_quantity = $inventory1->get("inventoryQuantity");
+                $minventory1->inventory_demand = $inventory1->get("inventoryDemand");
+                $minventory1->inventory_price = $inventory1->get("inventoryPrice");    
+                $resultArray[] = $minventory1;
+            }            
+            
+            $this->data['inventory'] = $resultArray;
             $this->load->view("inventory/edit", $data);
         }
     }
     public function save() {
         
         $query = new ParseQuery("Inventory");
-        $inventory = $query->get($this->input->post("inventory_id"));
+        $inventory = $query->get($this->input->post("inventory_id1"));
 
-        $inventory->set("inventoryName", $this->input->post("name"));
-        $inventory->set("inventorySku", $this->input->post("sku"));
-        $inventory->set("inventoryDistributor", $this->input->post("distributor"));
-        $quantity = $this->input->post("quantity");
+        $inventory->set("inventoryName", $this->input->post("name1"));
+        $inventory->set("inventorySku", $this->input->post("sku1"));
+        $inventory->set("inventoryDistributor", $this->input->post("distributor1"));
+        $quantity = $this->input->post("quantity1");
 
         $inventory->set("inventoryQuantity", (int)$quantity);
-        $inventory->set("inventoryPrice", $this->input->post("price"));
-      
+        $inventory->set("inventoryPrice", $this->input->post("price1"));
+
+        //second
+        if (!$this->input->post("inventory_id2")) {
+            try {
+                $inventory->save();
+                redirect("inventory/");
+            } catch (ParseException $ex) {
+                die("Exception Occured :".$ex->getMessage());
+            }
+        }
+
+        $inventory1 = $query->get($this->input->post("inventory_id2"));
+
+        $inventory1->set("inventoryName", $this->input->post("name2"));
+        $inventory1->set("inventorySku", $this->input->post("sku2"));
+        $inventory1->set("inventoryDistributor", $this->input->post("distributor2"));
+        $quantity = $this->input->post("quantity2");
+
+        $inventory1->set("inventoryQuantity", (int)$quantity);
+        $inventory1->set("inventoryPrice", $this->input->post("price2"));
+
         try {
             $inventory->save();
+            $inventory1->save();
             redirect("inventory/");
         } catch (ParseException $ex) {
             die("Exception Occured :".$ex->getMessage());

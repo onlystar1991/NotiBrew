@@ -33,7 +33,9 @@
                                 <th class="table--dsh__header">Status</th>
                             </tr>
                             <?php
+                            $str = "";
                         	foreach($this->data['inventories'] as $inventory) {
+                                $str = $str.$inventory->inventory_id."/";
                         		?>
                         		<tr>
                         			<td>
@@ -77,7 +79,7 @@
                         </table>
                     </form>
                     <!-- Stores pagination -->
-                        <a class="button alert" href="#" title="Edit" style="margin-left: 76%;position: absolute;"><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="button alert" href="<?php echo base_url();?>inventory/edit/<?php echo $str;?>" title="Edit" style="margin-left: 76%;position: absolute;"><i class="fa fa-pencil"></i> Edit</a>
                         
                         <div id="pagination" class="pagination-centered" style="width: auto; height: auto;">
                             <ul class="tsc_pagination" style="height: auto; width: 50%; margin: auto;">

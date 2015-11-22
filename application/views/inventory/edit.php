@@ -1,7 +1,7 @@
 <?php
 	$this->load->view("_partials/header.php");
 
-	$inventory = $this->data['inventory'];
+	$inventorys = $this->data['inventory'];
 ?>
 	<main id="main" class="row">
 	    <?php
@@ -15,7 +15,8 @@
                 <div id="inventory" class="content active">
                     
                     <form action="<?php echo base_url(); ?>inventory/save" method="post" >
-                    	<input type="hidden" name="inventory_id" value="<?php echo $inventory->inventory_id; ?>"
+                    	
+            			
                         <table class="table table--dsh">
                         	<thead>
 	                        <tr>
@@ -29,42 +30,54 @@
 	                        </tr>
 	                        </thead>
 	                        <tbody>
-	                        <tr>
-	                            <!-- SKU -->
-	                            <td>
-	                                <input name="sku" type="text" value="<?php echo $inventory->inventory_sku;?>"/>
-	                            </td> <!-- end of SKU -->
-	                            <!-- Price -->
-	                            <td>
-	                                <input name="price" type="text" value="<?php echo $inventory->inventory_price; ?>"/>
-	                            </td> <!-- end of Price -->
+	                        	<?php
+	                    		$i = 0;
 
-	                            <!-- Name -->
-	                            <td>
-	                                <input name="name" type="text" value="<?php echo $inventory->inventory_name; ?>"/>
-	                            </td> <!-- end of name -->
-	                            <!-- Distributor -->
-	                            <td>
-	                                <input name="distributor" type="text" value="<?php echo $inventory->inventory_distributor; ?>"/>
-	                            </td> <!-- end of distributor -->
-	                            <!-- Quantity -->
-	                            <td>
-	                                <input name="quantity" type="number" value="<?php echo $inventory->inventory_quantity; ?>"/>
-	                            </td> <!-- end of quantity -->
+	                    		foreach ($inventorys as $inventory) {
+	                    			$i++;
+                    			?>
+			                        <tr>
+			                            <!-- SKU -->
+			                            <td>
+			                            	<input type="hidden" name="inventory_id<?php echo $i;?>" value="<?php echo $inventory->inventory_id; ?>" >
+			                                <input name="sku<?php echo $i;?>" type="text" value="<?php echo $inventory->inventory_sku;?>"/>
+			                            </td> <!-- end of SKU -->
+			                            <!-- Price -->
+			                            <td>
+			                                <input name="price<?php echo $i;?>" type="text" value="<?php echo $inventory->inventory_price; ?>"/>
+			                            </td> <!-- end of Price -->
 
-	                            <!-- Demand -->
-	                            <td><?php echo $inventory->inventory_demand; ?></td> <!-- end of demand -->
+			                            <!-- Name -->
+			                            <td>
+			                                <input name="name<?php echo $i;?>" type="text" value="<?php echo $inventory->inventory_name; ?>"/>
+			                            </td> <!-- end of name -->
+			                            <!-- Distributor -->
+			                            <td>
+			                                <input name="distributor<?php echo $i;?>" type="text" value="<?php echo $inventory->inventory_distributor; ?>"/>
+			                            </td> <!-- end of distributor -->
+			                            <!-- Quantity -->
+			                            <td>
+			                                <input name="quantity<?php echo $i;?>" type="number" value="<?php echo $inventory->inventory_quantity; ?>"/>
+			                            </td> <!-- end of quantity -->
 
-	                            <!-- Action -->
-	                            <td class="table--dsh__action">
-	                                <!-- Order action -->
-	                                <a class="button secondary disabled right" href="#" title="Order">
-	                                    <i class="fa fa-plus"></i> Order
-	                                </a> <!-- end of order action -->
-	                            </td> <!-- end of actions -->
-	                        </tr>
+			                            <!-- Demand -->
+			                            <td><?php echo $inventory->inventory_demand; ?></td> <!-- end of demand -->
+
+			                            <!-- Action -->
+			                            <td class="table--dsh__action">
+			                                <!-- Order action -->
+			                                <a class="button secondary disabled right" href="#" title="Order">
+			                                    <i class="fa fa-plus"></i> Order
+			                                </a> <!-- end of order action -->
+			                            </td> <!-- end of actions -->
+			                        </tr>
+			                        <?php
+		                    		}
+		                    	?>
 	                    	</tbody>
 	                    </table>
+                    			
+                    	
 	                    <!-- .outer-actions -->
                         <div class="outer-actions">
                             <!-- Bulk actions -->

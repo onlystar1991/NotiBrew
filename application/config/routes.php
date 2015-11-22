@@ -56,7 +56,8 @@ $route['inventory/delete/(:val)'] = "inventory/delete/(:val)";
 
 $route['order/index'] = "order/index";
 $route['order/(:num)'] = "order/index/(:num)";
-$route['order/edit/(:val)'] = "order/edit/(:val)";
+$route['order/edit/(:val)'] = "order/edit/$1";
+$route['order/edit/(:val)/{:any}'] = "order/edit/$1/$2";
 $route['order/delete/(:val)'] = "order/delete/(:val)";
 
 $route['distributor/index'] = "distributor/index";
