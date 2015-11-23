@@ -66,8 +66,9 @@
                         				<?php 
                                         if($inventory->inventory_in_stock) {
                                             echo "in stock";  
-                                        } else {
-                                            echo "arrives ".$inventory->inventory_arrive_date;
+                                        } else if ($inventory->inventory_arrive_date) {
+                                                echo "arrives ".$inventory->inventory_arrive_date;    
+                                            
                                         }
                                         ?>
                                     </td> <!-- end of actions -->
