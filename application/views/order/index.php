@@ -41,17 +41,24 @@
                         		<td>
                         			<?php echo $order->order_payment_method; ?>
                         		</td>
-                        		<td>
-                        			Details
-                        			<?php // echo $order->order_detail; ?>
+                    			<?php
+                                    if($order->order_isAproved) {
+                                        ?>
+                                        <td class='has-details'><a href='#' data-reveal-id='orderDetails<?php echo $order->order_id;?>' title='Details'>details</a></td>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <td class='status-waiting'>waiting for delivery and pickup</td>
+                                        <?php
+                                    }
+                                ?>
                         		</td>
                         	</tr>
                         		<?php
                         	}
                         	?>
                         </tbody>
-                    </table>
-                    
+                    </table>                    
                     <!-- Stores pagination -->
 	                <div id="pagination" class="pagination-centered" style="width: auto; height: auto;">
 	                    <ul class="tsc_pagination" style="height: auto; width: 50%; margin: auto;">
@@ -68,6 +75,124 @@
 	    </div>
 	</main>
 
+    <?php
+        foreach($orders as $order) {
+            ?>
+                <div id="orderDetails<?php echo $order->order_id;?>" class="reveal-modal text-center" data-reveal aria-labelledby="orderTitle"
+                    aria-hidden="true" role="dialog">
+                    
+                    <!-- Store icon: favicon.png -->
+                    <img class="favicon" src="<?php echo asset_base_url();?>/images/favicon.png" alt="notibrew" title="notibrew"/> <!-- end of store icon -->
+                    
+                    <!-- Title message -->
+                    <h4 id="orderTitle" class="title">Order Details</h4> <!-- end of title message -->
+                    
+                    <!-- Order summary -->
+                    <table class="order-summary">
+                        <thead>
+                            <tr>
+                                <th>Beer Name</th>
+                                <th>Price</th>
+                                <th class="text-right">Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- Beer name -->
+                                <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                
+                                <!-- Price -->
+                                <td><?php echo $order->order_beer_price?"$".$order->order_beer_price:""; ?></td> <!-- end of price -->
+                                
+                                <!-- Quantity -->
+                                <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                            </tr>
+                        </tbody>
+                    </table> <!-- end of order summary -->
+
+                    <!-- Actions -->
+                    <ul class="no-bullet inline-list action-group" style="margin-bottom: 0;">
+                        <li><a id="<?php echo $order->order_id;?>" class="button lnk-orderDetails secondary" href="#" data-details>Check inventory and distributor</a></li>
+                    </ul> <!-- end of actions -->
+                    
+                    <!-- 
+                        FULL ORDER DETAIL
+                    -->
+                    <article id="orderFullDetails<?php echo $order->order_id;?>" class="full-details">
+                        <!-- IN STOCK -->
+                        <article>
+                            <!-- Legend -->
+                            <h5>IN STOCK</h5> <!-- endo of legend -->
+                            
+                            <!-- In stock summary -->
+                            <table class="order-summary">
+                                <thead>
+                                    <tr>
+                                        <th>Beer Name</th>
+                                        <th>Price</th>
+                                        <th class="text-right">Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- Beer name -->
+                                        <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                        
+                                        <!-- Price -->
+                                        <td>$<?php echo $order->order_beer_price; ?></td> <!-- end of price -->
+                                        
+                                        <!-- Quantity -->
+                                        <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                                    </tr>
+                                </tbody>
+                            </table> <!-- end of in stock summary -->
+                        </article> <!-- END OF IN STOCK -->
+                        
+                        <!-- ORDER  -->
+                        <article>
+                            <!-- Legend -->
+                            <h5>IN STOCK</h5> <!-- endo of legend -->
+                            
+                            <!-- Order summary -->
+                            <table class="order-summary">
+                                <thead>
+                                    <tr>
+                                        <th>Beer Name</th>
+                                        <th>Price</th>
+                                        <th class="text-right">Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- Beer name -->
+                                        <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                        
+                                        <!-- Price -->
+                                        <td>$<?php echo $order->order_beer_price; ?></td> <!-- end of price -->
+                                        
+                                        <!-- Quantity -->
+                                        <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                                    </tr>
+                                </tbody>
+                            </table> <!-- end of order summary -->
+                        </article> <!-- END OF ORDER -->
+                        
+                        <!-- Actions -->
+                        <ul class="no-bullet inline-list action-group">
+                            <!-- Finalize action -->
+                            <li>
+                                <a href="#" class="button secondary" title="Finalize">Finalize</a></li> <!-- end of finalize action -->
+
+                            <!-- Order action -->
+                            <li>
+                                <a class="button" href="#" title="Order">Order</a></li> <!-- end of order action -->
+
+                        </ul> <!-- end of actions -->
+                    </article> <!-- END OF FULL ORDER DETAILS -->
+                </div>
+            <?php
+        }
+    ?>
 <?php
 	$this->load->view("_partials/footer.php");
 ?>

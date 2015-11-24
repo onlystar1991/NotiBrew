@@ -387,3 +387,84 @@
 <?php
 	$this->load->view("_partials/footer.php");
 ?>
+<script>
+$(function() {
+    var fileUpload_changed = 0;
+    $("#file_upload_span").click(function() {
+        $( "#file-upload-dialog" ).dialog();
+    });
+
+    //If there is file element having src, that element will be hidden
+    if ($.trim($("#img_store_logo").attr("src")) != "") {
+        $("#div-icon-upload").css("display", "none");
+    }
+    if ($.trim($("#img_store_image1").attr("src")) != "") {
+        $("#div-image1-upload").css("display", "none");
+    }
+    if ($.trim($("#img_store_image2").attr("src")) != "") {
+        $("#div-image2-upload").css("display", "none");
+    }
+    
+    $("#delete_store_logo").click(function(e) {
+        fileUpload_changed++;
+        $("#img_store_logo").attr("src", "");
+        
+        $("#div-icon-upload").css("display", "block");
+        
+        $("#file_upload_span").show();
+
+        $("#deleteIcon").val(1);
+        e.preventDefault();
+    })
+    $("#delete_store_image1").click(function(e) {
+        fileUpload_changed++;
+        $("#img_store_image1").attr("src", "");
+        
+        $("#div-image1-upload").css("display", "block");
+
+        $("#file_upload_span").show();
+        $("#deleteStoreImage1").val(1);
+        e.preventDefault();
+    })
+
+    $("#delete_store_image2").click(function(e) {
+        fileUpload_changed++;
+        $("#img_store_image2").attr("src", "");
+        $("#div-image2-upload").css("display", "block");
+        $("#file_upload_span").show();
+        $("#deleteStoreImage2").val(1);
+        e.preventDefault();
+    });
+
+    $("#div-icon-upload").click(function(e) {
+        $("#file_store_icon").click();
+        e.preventDefault();
+    });
+
+    $("#file_store_icon").change(function() {
+        $("#div-icon-upload").text("Store Icon: Selected!");
+        $("#logo_title").text($(this).val());
+    })
+
+    $("#div-image1-upload").click(function(e) {
+        $("#file_store_image1").click();
+        e.preventDefault();
+    });
+
+    $("#file_store_image1").change(function(e) {
+        $("#div-image1-upload").text("Store Image1: Selected!");
+        $("#image1_title").text($(this).val());
+    });
+
+    $("#div-image2-upload").click(function(e) {
+        $("#file_store_image2").click();
+
+        e.preventDefault();
+    });
+    $("#file_store_image2").change(function() {
+        $("#div-image2-upload").text("Store Image2: Selected!");
+        $("#image2_title").text($(this).val());
+        alert($(this).val());
+    });
+});
+</script>

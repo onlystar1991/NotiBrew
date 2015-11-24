@@ -8,7 +8,6 @@
 <?php 
 	if (!isset($this->data['total_count'])) {
 	?>
-		<script type="text/javascript" src="<?= asset_base_url()?>/js/app.js"></script>
 	<?php
 	} else {
 		$datas = $this->data['orders'];

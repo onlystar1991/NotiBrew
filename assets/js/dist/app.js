@@ -7573,7 +7573,7 @@ d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(b)};if(void 0===b&&(b=_
      * @return void
      */
     function initOrderDetails() {
-        var a                   = document.getElementById('lnk-orderDetails');
+        var a                   = document.getElementsByClassName('lnk-orderDetails');
         
         // if a is undefined
         if(!a) return; // exit function
@@ -7581,9 +7581,8 @@ d[d.length]=encodeURIComponent(a)+"="+encodeURIComponent(b)};if(void 0===b&&(b=_
         // ... proceed
         // attach custom click handler
         $(a).click(function(e) {
-            
-            var orderDetails     = document.getElementById('orderFullDetails');
-            
+            var findId = "orderFullDetails" + $(this).attr("id");
+            var orderDetails     = document.getElementById(findId);
             // if orderDetails is undefined
             if(!orderDetails) return; // exit callback
             
