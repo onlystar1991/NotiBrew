@@ -1,6 +1,8 @@
 <?php
 	$this->load->view("_partials/header.php");
 	$orders = $this->data['orders'];
+    $inStocks = $this->data['instocks'];
+    $distributors = $this->data['distributors'];
 ?>
 	<main id="main" class="row">
 	    <?php
@@ -20,7 +22,7 @@
                                 <th class="table--dsh__header">Date</th>
                                 <th class="table--dsh__header">Payment Method</th>
                                 <th class="table--dsh__header">Details</th>
-                            </tr// >
+                            </tr>
                         </thead>
                         <tbody>
                         	<?php
@@ -134,16 +136,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <!-- Beer name -->
-                                        <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
-                                        
-                                        <!-- Price -->
-                                        <td>$<?php echo $order->order_beer_price; ?></td> <!-- end of price -->
-                                        
-                                        <!-- Quantity -->
-                                        <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
-                                    </tr>
+                                    <?php
+                                        foreach($inStocks as $inStock) {
+                                            ?>
+                                            <tr>
+                                                <!-- Beer name -->
+                                                <td><?php echo $inStock->inventory_name; ?></td> <!-- end of beer name -->
+                                                
+                                                <!-- Price -->
+                                                <td>$<?php echo $inStock->inventory_price; ?></td> <!-- end of price -->
+                                                
+                                                <!-- Quantity -->
+                                                <td class="text-right"><?php echo $inStock->inventory_quantity; ?></td> <!-- end of quantity -->
+                                            </tr>
+                                            <?php
+                                        }
+                                    ?>
                                 </tbody>
                             </table> <!-- end of in stock summary -->
                         </article> <!-- END OF IN STOCK -->
@@ -151,7 +159,7 @@
                         <!-- ORDER  -->
                         <article>
                             <!-- Legend -->
-                            <h5>IN STOCK</h5> <!-- endo of legend -->
+                            <h5>Order</h5> <!-- endo of legend -->
                             
                             <!-- Order summary -->
                             <table class="order-summary">
@@ -163,16 +171,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <!-- Beer name -->
-                                        <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
-                                        
-                                        <!-- Price -->
-                                        <td>$<?php echo $order->order_beer_price; ?></td> <!-- end of price -->
-                                        
-                                        <!-- Quantity -->
-                                        <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
-                                    </tr>
+                                    <?php
+                                    foreach($distributors as  $distributor) {
+                                        if ($distributor->distributor_name != $order->order_beer_name) {
+                                            continue;
+                                        }
+                                        ?>
+                                        <tr>
+                                            <!-- Beer name -->
+                                            <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                            
+                                            <!-- Price -->
+                                            <td><?php echo $order->order_beer_price; ?></td> <!-- end of price -->
+                                            
+                                            <!-- Quantity -->
+                                            <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table> <!-- end of order summary -->
                         </article> <!-- END OF ORDER -->
@@ -181,12 +198,13 @@
                         <ul class="no-bullet inline-list action-group">
                             <!-- Finalize action -->
                             <li>
-                                <a href="#" class="button secondary" title="Finalize">Finalize</a></li> <!-- end of finalize action -->
+                                <a href="#" class="button secondary orderFinalize" value="<?php echo $order->order_id; ?>" title="Finalize">Finalize</a>
+                            </li> <!-- end of finalize action -->
 
                             <!-- Order action -->
                             <li>
-                                <a class="button" href="#" title="Order">Order</a></li> <!-- end of order action -->
-
+                                <a class="button" href="#" title="Order">Order</a>
+                            </li> <!-- end of order action -->
                         </ul> <!-- end of actions -->
                     </article> <!-- END OF FULL ORDER DETAILS -->
                 </div>
@@ -196,3 +214,24 @@
 <?php
 	$this->load->view("_partials/footer.php");
 ?>
+<script>
+    $(function() {
+        $(".orderFinalize").click(function(e) {
+            var id = $(this).attr("value");
+
+            $.ajax({
+                url: "<?= base_url().'order/finalizeOrder' ?>",
+                data: {order_id: id},
+                dataTyep: "JSON",
+                type: "POST",
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.result == "success") {
+                        $("#orderDetails" + data.id).foundation('reveal', 'close');
+                    }
+                }
+            });
+            e.preventDefault();
+        })
+    })
+</script>

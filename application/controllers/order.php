@@ -30,6 +30,8 @@ class Order extends CI_Controller {
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('morder');
+        $this->load->model('minventory');
+        $this->load->model('mdistributor');
         $this->load->helper('url');
         $this->load->library("pagination");
         $this->load->library("session");
@@ -69,9 +71,14 @@ class Order extends CI_Controller {
         }
         
         $this->data['orders'] = $result_array;
+        $this->data['instocks'] = $this->getInStocklist();
+        $this->data['distributors'] = $this->getDistributorlist();
+
         $this->data['page'] = "order";
 
         $permission = $this->session->userdata("permission");
+        
+
         if ($permission == "retailer") {
             $this->load->view('order/index', $data);
         } else if ($permission == "distributor") {
@@ -163,5 +170,75 @@ class Order extends CI_Controller {
         }
 
         return $resultArray;
+    }
+
+    private function getInStocklist() {
+       
+        $query = new ParseQuery("Inventory");
+        $result = $query->find();
+        $resultArray = array();
+        for($i = 0; $i < count($result); $i++) {
+            
+            $object = $result[$i];
+            if ($object->get("inStock")) {
+                $inventory = new MInventory();
+                $inventory->inventory_id = $object->getObjectId();
+                $inventory->inventory_name = $object->get("inventoryName");
+                $inventory->inventory_sku = $object->get("inventorySku");
+                $inventory->inventory_distributor = $object->get("inventoryDistributor");
+                $inventory->inventory_quantity = $object->get("inventoryQuantity");
+                $inventory->inventory_demand = $object->get("inventoryDemand");
+                $inventory->inventory_price = $object->get("inventoryPrice");
+
+                $inventory->inventory_in_stock = $object->get("inStock");
+                $inventory->inventory_arrive_date = date_format($object->get("arriveDate"), "d/m/Y");
+                $resultArray[] = $inventory;   
+            }
+        }
+        return $resultArray;
+    }
+
+    private function getDistributorlist() {
+
+        $query = new ParseQuery("Distributor");
+        $result = $query->find();
+        $resultArray = array();
+        for($i = 0; $i < count($result); $i++) {
+            $object = $result[$i];
+
+            $distributor = new MDistributor();
+
+            $distributor->distributor_id = $object->getObjectId();
+
+            $distributor->distributor_name = $object->get("distributorName");
+            
+            $resultArray[] = $distributor;
+        }
+        return $resultArray;
+    }
+
+    public function finalizeOrder() {
+        
+        $object = new ParseObject("Inventory");
+
+        $id = $this->input->post("order_id");
+        try {
+            $query = new ParseQuery("MyOrders");
+            $order = $query->get($id);
+
+            $object->set("inventoryName", $order->get("beerTitle"));
+            $object->set("inventoryQuantity", $order->get("beerTitle"));
+            $object->set("inventoryPrice", $order->get("beerTitle"));
+            $object->save();
+
+            $result['id'] = $id;
+            $result['result'] = 'success';
+        } catch(ParseException $ex) {
+            $result['id'] = $id;
+            $result['result'] = 'fail';
+        }
+
+        echo json_encode($result);
+        exit;
     }
 }
