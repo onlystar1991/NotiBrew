@@ -235,7 +235,6 @@ class Order extends CI_Controller {
             $result['result'] = 'success';
         } catch(ParseException $ex) {
             $result['id'] = $id;
-            die(var_dump($ex));
             $result['result'] = 'fail';
         }
 
