@@ -223,23 +223,19 @@ class Order extends CI_Controller {
 
         $id = $this->input->post("order_id");
         try {
-            $result['step1'] = "here";
             $query = new ParseQuery("MyOrders");
             $order = $query->get($id);
-            $result['step2'] = "here";
 
             $object->set("inventoryName", $order->get("beerTitle"));
-            $result['step3'] = "here";
             $object->set("inventoryQuantity", $order->get("beerTitle"));
-            $result['step4'] = "here";
             $object->set("inventoryPrice", '$'.$order->get("beerTaxPrice"));
-            $result['step5'] = "here";
             $object->save();
 
             $result['id'] = $id;
             $result['result'] = 'success';
         } catch(ParseException $ex) {
             $result['id'] = $id;
+            die(var_dump($ex));
             $result['result'] = 'fail';
         }
 
