@@ -227,7 +227,7 @@ class Order extends CI_Controller {
             $order = $query->get($id);
 
             $object->set("inventoryName", $order->get("beerTitle"));
-            $object->set("inventoryQuantity", $order->get("beerTitle"));
+            $object->set("inventoryQuantity", (int)$order->get("count"));
             $object->set("inventoryPrice", '$'.$order->get("beerTaxPrice"));
             $object->save();
 
