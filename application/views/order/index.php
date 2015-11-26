@@ -137,6 +137,8 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    var_dump($order->order_inStock);
+                                    
                                     if ($order->order_inStock) {
                                         ?>
                                         <tr>
