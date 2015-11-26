@@ -154,7 +154,7 @@
             // ... proceed
             $(orderDetails).slideToggle(200, function() {
                 
-                $(a).toggleClass('disabled'); // toggle disable class on button
+                $(this).toggleClass('disabled'); // toggle disable class on button
                 
                 // update sidebar height
                 initSidenavMinHeight();
