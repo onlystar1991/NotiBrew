@@ -137,20 +137,20 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        foreach($inStocks as $inStock) {
-                                            ?>
-                                            <tr>
-                                                <!-- Beer name -->
-                                                <td><?php echo $inStock->inventory_name; ?></td> <!-- end of beer name -->
-                                                
-                                                <!-- Price -->
-                                                <td><?php echo $inStock->inventory_price; ?></td> <!-- end of price -->
-                                                
-                                                <!-- Quantity -->
-                                                <td class="text-right"><?php echo $inStock->inventory_quantity; ?></td> <!-- end of quantity -->
-                                            </tr>
-                                            <?php
-                                        }
+                                    if ($order->order_inStock) {
+                                        ?>
+                                        <tr>
+                                            <!-- Beer name -->
+                                            <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                            
+                                            <!-- Price -->
+                                            <td><?php echo $order->order_beer_price?"$".$order->order_beer_price:""; ?></td> <!-- end of price -->
+                                            
+                                            <!-- Quantity -->
+                                            <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                                        </tr>
+                                        <?php
+                                    }
                                     ?>
                                 </tbody>
                             </table> <!-- end of in stock summary -->

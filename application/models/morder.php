@@ -20,6 +20,7 @@ class MOrder extends CI_Model {
     var $order_detail;
     var $order_isAproved;
     var $order_deniedReason;
+    var $order_inStock;
     
 
     //Dialog

@@ -165,7 +165,8 @@ class Order extends CI_Controller {
             
             $order->order_beer_qty = $object->get("count");
 
-
+            $order->order_inStock = $object->get("inStock");
+            
             $resultArray[] = $order;
         }
 
