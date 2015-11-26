@@ -138,7 +138,7 @@
                                 <tbody>
                                     <?php
                                     var_dump($order->order_inStock);
-                                    
+                                    die;
                                     if ($order->order_inStock) {
                                         ?>
                                         <tr>

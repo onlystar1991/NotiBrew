@@ -138,7 +138,6 @@ class Order extends CI_Controller {
 
         $result = $query->find();
 
-
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
             $object = $result[$i];
@@ -166,7 +165,8 @@ class Order extends CI_Controller {
             $order->order_beer_qty = $object->get("count");
 
             $order->order_inStock = $object->get("inStock");
-            
+            var_dump($object->get('inStock'));
+            die;
             $resultArray[] = $order;
         }
 
