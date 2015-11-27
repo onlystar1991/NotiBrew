@@ -136,10 +136,10 @@ class Order extends CI_Controller {
        
         $query = new ParseQuery("MyOrders");
 
+        $query->notEqualTo("inStock", NULL);
+
         $result = $query->find();
 
-        $query->notEqualTo("inStock", NULL);
-        
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
             $object = $result[$i];
@@ -168,8 +168,6 @@ class Order extends CI_Controller {
 
             $order->order_inStock = $object->get("inStock");
             
-            var_dump($object->get('inStock'));
-            die;
             $resultArray[] = $order;
         }
 
