@@ -46,11 +46,11 @@
                     			<?php
                                     if($order->order_isAproved) {
                                         ?>
-                                        <td class='has-details'><a href='#' data-reveal-id='orderDetails<?php echo $order->order_id;?>' title='Details'>details</a></td>
+                                        <td id="td-<?php echo $order->order_id;?>" class='has-details'><a href='#' data-reveal-id='orderDetails<?php echo $order->order_id;?>' title='Details'>details</a></td>
                                         <?php
                                     } else {
                                         ?>
-                                        <td class='status-waiting'>waiting for delivery and pickup</td>
+                                        <td id="td-<?php echo $order->order_id;?>" class='status-waiting'>waiting for delivery and pickup</td>
                                         <?php
                                     }
                                 ?>
@@ -225,8 +225,11 @@
                 dataTyep: "JSON",
                 type: "POST",
                 success: function(response) {
+
                     var data = JSON.parse(response);
                     if (data.result == "success") {
+                        $("#td-" + data.id).addClass("status-waiting");
+                        $("#td-" + data.id).html("waiting for delivery and pickup");
                         $("#orderDetails" + data.id).foundation('reveal', 'close');
                     }
                 }
