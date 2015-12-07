@@ -224,14 +224,14 @@ class Order extends CI_Controller {
             $query = new ParseQuery("MyOrders");
             $order = $query->get($id);
             $qty = $order->get("count");
-            echo $qty;
-            die;
             
-            $query1 = new ParseQuery("Inventory");
-            $query1->select("inventoryName", $order->get("beerTitle"));
-            $result1 = $query->first();
-            $count = $result->get("inventoryQuantity");
 
+            $query1 = new ParseQuery("Inventory");
+            $query1->equalTo("inventoryName", $order->get("beerTitle"));
+            $result1 = $query->first();
+            $count = $result1->get("inventoryQuantity");
+            echo $count;
+            die;
             $result1->set("inventoryQuantity", $count-$qty);
             $result1->save();
 
