@@ -138,6 +138,7 @@
                                 <tbody>
                                     <?php
                                     foreach ($inStocks as $row) {
+                                        if ($order->order_beer_name != $row->inventory_name) continue;
                                         ?>
                                         <tr>
                                             <!-- Beer name -->
