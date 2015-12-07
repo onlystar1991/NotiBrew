@@ -127,7 +127,6 @@ class Order extends CI_Controller {
             $result['id'] = $id;
             $result['result'] = 'fail';
         }
-
         echo json_encode($result);
         exit;
     }
