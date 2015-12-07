@@ -170,7 +170,6 @@ class Order extends CI_Controller {
             
             $resultArray[] = $order;
         }
-
         return $resultArray;
     }
 

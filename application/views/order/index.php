@@ -137,17 +137,17 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    if ($order->order_inStock) {
+                                    foreach ($inStocks as $row) {
                                         ?>
                                         <tr>
                                             <!-- Beer name -->
-                                            <td><?php echo $order->order_beer_name; ?></td> <!-- end of beer name -->
+                                            <td><?php echo $row->inventory_name; ?></td> <!-- end of beer name -->
                                             
                                             <!-- Price -->
-                                            <td><?php echo $order->order_beer_price?"$".$order->order_beer_price:""; ?></td> <!-- end of price -->
+                                            <td><?php echo $order->inventory_price?"$".$order->inventory_price:""; ?></td> <!-- end of price -->
                                             
                                             <!-- Quantity -->
-                                            <td class="text-right"><?php echo $order->order_beer_qty; ?></td> <!-- end of quantity -->
+                                            <td class="text-right"><?php echo $order->inventory_quantity; ?></td> <!-- end of quantity -->
                                         </tr>
                                         <?php
                                     }

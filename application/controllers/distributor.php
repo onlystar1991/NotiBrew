@@ -84,7 +84,6 @@ class Distributor extends CI_Controller {
             $this->data['page'] = "distributor";
             $this->load->view('distributor/delivery', $data);
         } else {
-
             $all_distributor = $this->getDistributorlist();
             $result_array = array();
             $this->data['distributors'] = array();
