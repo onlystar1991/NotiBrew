@@ -144,10 +144,9 @@
                                             <td><?php echo $row->inventory_name; ?></td> <!-- end of beer name -->
                                             
                                             <!-- Price -->
-                                            <td><?php echo $order->inventory_price?"$".$order->inventory_price:""; ?></td> <!-- end of price -->
-                                            
+                                            <td><?php echo $row->inventory_price; ?></td>
                                             <!-- Quantity -->
-                                            <td class="text-right"><?php echo $order->inventory_quantity; ?></td> <!-- end of quantity -->
+                                            <td class="text-right"><?php echo $order->row; ?></td> <!-- end of quantity -->
                                         </tr>
                                         <?php
                                     }
