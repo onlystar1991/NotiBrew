@@ -215,7 +215,7 @@
 ?>
 <script>
     $(function() {
-        $(".orderFinalize_").click(function(e) {
+        $(".orderFinalize").click(function(e) {
             var id = $(this).attr("value");
 
             $.ajax({
