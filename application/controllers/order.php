@@ -219,17 +219,21 @@ class Order extends CI_Controller {
 
     public function finalizeOrder() {
         
-        $object = new ParseObject("Inventory");
+        
 
         $id = $this->input->post("order_id");
         try {
             $query = new ParseQuery("MyOrders");
             $order = $query->get($id);
+            $qty = $order->get("count");
 
-            $object->set("inventoryName", $order->get("beerTitle"));
-            $object->set("inventoryQuantity", (int)$order->get("count"));
-            $object->set("inventoryPrice", '$'.$order->get("beerTaxPrice"));
-            $object->save();
+            $query1 = new ParseQuery("Inventory");
+            $query1->select("inventoryName", $order->get("beerTitle"));
+            $result1 = $query->first();
+            $count = $result->get("inventoryQuantity");
+
+            $result1->set("inventoryQuantity", $count-$qty);
+            $result1->save();
 
             $result['id'] = $id;
             $result['result'] = 'success';
@@ -237,7 +241,6 @@ class Order extends CI_Controller {
             $result['id'] = $id;
             $result['result'] = 'fail';
         }
-
         echo json_encode($result);
         exit;
     }

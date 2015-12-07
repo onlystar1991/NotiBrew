@@ -146,7 +146,7 @@
                                             <!-- Price -->
                                             <td><?php echo $row->inventory_price; ?></td>
                                             <!-- Quantity -->
-                                            <td class="text-right"><?php echo $order->row; ?></td> <!-- end of quantity -->
+                                            <td class="text-right"><?php echo $row->inventory_quantity; ?></td> <!-- end of quantity -->
                                         </tr>
                                         <?php
                                     }
