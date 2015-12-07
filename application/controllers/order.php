@@ -218,14 +218,15 @@ class Order extends CI_Controller {
     }
 
     public function finalizeOrder() {
-        echo "this";
-        die;
+
         $id = $this->input->post("order_id");
         try {
             $query = new ParseQuery("MyOrders");
             $order = $query->get($id);
             $qty = $order->get("count");
-
+            echo $qty;
+            die;
+            
             $query1 = new ParseQuery("Inventory");
             $query1->select("inventoryName", $order->get("beerTitle"));
             $result1 = $query->first();
