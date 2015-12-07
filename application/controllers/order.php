@@ -228,7 +228,7 @@ class Order extends CI_Controller {
 
             $query1 = new ParseQuery("Inventory");
             $query1->equalTo("inventoryName", $order->get("beerTitle"));
-            $result1 = $query->first();
+            $result1 = $query1->first();
             $count = $result1->get("inventoryQuantity");
             echo $count;
             die;
