@@ -218,9 +218,6 @@ class Order extends CI_Controller {
     }
 
     public function finalizeOrder() {
-        
-        
-
         $id = $this->input->post("order_id");
         try {
             $query = new ParseQuery("MyOrders");
