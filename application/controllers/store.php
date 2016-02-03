@@ -18,7 +18,6 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseFile;
 
-
 class Store extends CI_Controller{
 
     private static $app_id     =   'upTrZvYWTbzoZKTI9Up9uGWYHiamL3LCWNvfiTrx';

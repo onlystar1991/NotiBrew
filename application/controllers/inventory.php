@@ -17,7 +17,8 @@ use Parse\ParseException;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseFile;
-
+use Parse\ParseInstallation;
+use Parse\ParsePush;
 
 class Inventory extends CI_Controller{
 
@@ -210,11 +211,21 @@ class Inventory extends CI_Controller{
         $inventory->set("inventoryDistributor", $distributor);
         $inventory->set("inventoryQuantity", (int)$quantity);
         $inventory->set("inventoryDemand", (int)$demand);
+
         try {
             $inventory->save();
+            $query = ParseInstallation::query();
+            $query->equalTo("deviceType", "ios");
+
+            ParsePush::send(array(
+                "where" => $query,
+                "data" => array(
+                    "alert" => $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors"
+                )
+            ));
             redirect("inventory");
         } catch (ParseException $e) {
-            die(var_dump($e));
+            die(print_r($e));
         }
     }
 }
