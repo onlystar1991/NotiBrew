@@ -214,13 +214,22 @@ class Inventory extends CI_Controller{
 
         try {
             $inventory->save();
+            if ($this->session->userdata['permission'] == "bar") {
+                $alert = $name . " is now on tap @ " . $this->session->userdata['username'];
+            } else if ($this->session->userdata['permission'] == "brewery") {
+                $alert = $name . " is available @ " . $this->session->userdata['username'];
+            } else {
+                $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
+            }
+
             $query = ParseInstallation::query();
             $query->equalTo("deviceType", "ios");
 
             ParsePush::send(array(
                 "where" => $query,
                 "data" => array(
-                    "alert" => $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors"
+                    "alert" => $alert,
+                    "sound" => "BeerSound.wav" 
                 )
             ));
             redirect("inventory");
