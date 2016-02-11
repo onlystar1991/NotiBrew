@@ -222,19 +222,86 @@ class Inventory extends CI_Controller{
                 $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
             }
 
-            $query = ParseInstallation::query();
-            $query->equalTo("deviceType", "ios");
-
-            ParsePush::send(array(
-                "where" => $query,
-                "data" => array(
-                    "alert" => $alert,
-                    "sound" => "BeerSound.wav" 
-                )
-            ));
+            $query = new ParseQuery("_Installation");
+            $query->EqualTo("appName", 'NotiBrew');
+            $devices = $query->find(true);
+            // $query = ParseInstallation::query();
+            
+            for($i = 0; $i < count($devices); $i++) {
+                $object = $devices[$i];
+                $deviceToken = $object->get("deviceToken");
+                if ($deviceToken) {
+                    if (!$this->sendPushNotification($deviceToken, $alert)) {
+                        die("fail");
+                    }
+                }
+            }
             redirect("inventory");
         } catch (ParseException $e) {
             die(print_r($e));
         }
+    }
+
+    public function sendPushNotification($deviceToken, $message) {
+
+        $passphrase = 'notibrew';
+        $ctx = stream_context_create();
+    
+        stream_context_set_option($ctx, 'ssl', 'local_cert', PEM_LOC);
+        
+        stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+        
+        // Open a connection to the APNS server
+        //'ssl://gateway.push.apple.com:2195'
+        // tls://gateway.sandbox.push.apple.com:2195
+        $fp = stream_socket_client(
+        'ssl://gateway.push.apple.com:2195', $err,
+        $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+       
+        if (!$fp)
+        {
+            //fclose($fp);
+         //exit("Failed to connect: $err $errstr" . PHP_EOL);
+         echo "Error Ocurred";
+         return false;
+        }
+        else
+        {
+             //echo "Success";
+             //echo 'Connected to APNS' . PHP_EOL;
+             
+             // Create the payload body
+             $body['aps'] = array(
+              'alert' => array(
+                'title'=>'Alert title',
+                'body'=>'Test message'
+                ),
+              'sound' => 'BeerSound.wav',
+              'Person' =>array(
+                'userId'=>'test_id12345',
+                'name'=>'Test name push',
+                'image'=>'Test image'
+                )
+              );
+             
+             $body['message'] = 'notification_type';
+             // Encode the payload as JSON
+             $payload = json_encode($body);
+             
+             // Build the binary notification
+             $msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+             
+             // Send it to the server
+             $result = fwrite($fp, $msg, strlen($msg));
+             //debug($result);
+             //if (!$result)
+             //    echo 'Message not delivered' . PHP_EOL;
+             //else
+             //    echo 'Message successfully delivered' . PHP_EOL;
+             
+             // Close the connection to the server
+             fclose($fp);
+             return true;
+         }
     }
 }
