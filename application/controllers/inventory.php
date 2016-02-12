@@ -274,7 +274,7 @@ class Inventory extends CI_Controller{
              $body['aps'] = array(
               'alert' => array(
                 'title'=>'Alert title',
-                'body'=>'Test message'
+                'body'=>$message
                 ),
               'sound' => 'BeerSound.wav',
               'Person' =>array(
@@ -293,13 +293,7 @@ class Inventory extends CI_Controller{
              
              // Send it to the server
              $result = fwrite($fp, $msg, strlen($msg));
-             //debug($result);
-             //if (!$result)
-             //    echo 'Message not delivered' . PHP_EOL;
-             //else
-             //    echo 'Message successfully delivered' . PHP_EOL;
              
-             // Close the connection to the server
              fclose($fp);
              return true;
          }
