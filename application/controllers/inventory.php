@@ -82,6 +82,7 @@ class Inventory extends CI_Controller{
     private function getInventorylist() {
        
         $query = new ParseQuery("Inventory");
+        $query->equalTo("createdBy", $this->session->userdata['permission']);
         $result = $query->find();
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
@@ -211,6 +212,7 @@ class Inventory extends CI_Controller{
         $inventory->set("inventoryDistributor", $distributor);
         $inventory->set("inventoryQuantity", (int)$quantity);
         $inventory->set("inventoryDemand", (int)$demand);
+        $inventory->set("createdBy", $this->session->userdata['permission']);
 
         try {
             $inventory->save();
