@@ -88,7 +88,7 @@ class Store extends CI_Controller{
             $store->store_to_monday = $object->get("toMonday");
 
             if ($object->get("storeIcon")) {
-                $store->store_logo = $object->get("storeIcon")->getURL();
+                $store->store_logo = $object->get("storeIcon");
             }
             $store->store_description = $object->get("storeDescription");
             $resultArray[] = $store;
