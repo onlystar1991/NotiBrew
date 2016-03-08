@@ -73,6 +73,7 @@ class Inventory extends CI_Controller{
         $this->data['page'] = "inventory";
 
         $this->data['beers'] = $this->getBeerList();
+        
         $this->data['stores'] = $this->getStoreList();
 
         var_dump($this->data['stores']);
@@ -95,10 +96,16 @@ class Inventory extends CI_Controller{
             $store = new MStore();
             $store->store_id = $object->getObjectId();
             $store->store_name = $object->get("storeName");
-            
+            $store->store_address = $object->get("storeAddress");
+            $store->store_from_monday = $object->get("fromMonday");
+            $store->store_to_monday = $object->get("toMonday");
+
+            if ($object->get("storeIcon")) {
+                $store->store_logo = $object->get("storeIcon");
+            }
+            $store->store_description = $object->get("storeDescription");
             $resultArray[] = $store;
         }
-
         return $resultArray;
     }
     
