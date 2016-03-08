@@ -239,6 +239,7 @@ class Inventory extends CI_Controller{
         $distributor = $this->input->post("distributor");
         $quantity = $this->input->post("quantity");
         $demand = $this->input->post("demand");
+        $storeId = $this->input->post("store_id");
 
         $inventory = new ParseObject("Inventory");
         
@@ -249,6 +250,7 @@ class Inventory extends CI_Controller{
         $inventory->set("inventoryQuantity", (int)$quantity);
         $inventory->set("inventoryDemand", (int)$demand);
         $inventory->set("createdBy", $this->session->userdata['permission']);
+        $inventory->set("storeId", $storeId);
 
         try {
             $inventory->save();
