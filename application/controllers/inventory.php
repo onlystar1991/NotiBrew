@@ -95,6 +95,7 @@ class Inventory extends CI_Controller{
 
         for($i = 0; $i < count($result1); $i++) {
             $object = $result1[$i];
+            /*
             $store = new MStore();
             $store->store_id = $object->getObjectId();
             $store->store_name = $object->get("storeName");
@@ -103,7 +104,7 @@ class Inventory extends CI_Controller{
             $store->store_to_monday = $object->get("toMonday");
 
             $store->store_description = $object->get("storeDescription");
-            
+            */
             var_dump($object->getObjectId());
             die;
             $resultArray1[] = $store;
