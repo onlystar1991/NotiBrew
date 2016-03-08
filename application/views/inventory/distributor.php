@@ -97,8 +97,6 @@
 
 	    </div>
 	</main>
-    <?php var_dump($this->data['inventories']); die;
-    ?>
 <?php
 	$this->load->view("_partials/footer.php");
 ?>
