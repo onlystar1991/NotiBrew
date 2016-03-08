@@ -91,6 +91,8 @@ class Inventory extends CI_Controller{
 
             $resultArray[] = $object->get("beerTitle");
         }
+        var_dump($resultArray);
+        die;
         return $resultArray;
     }
 
