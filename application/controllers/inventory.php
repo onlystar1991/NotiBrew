@@ -77,9 +77,6 @@ class Inventory extends CI_Controller{
 
         $this->data['stores'] = $this->getStoreList();
 
-        var_dump($this->data['stores']);
-        die;
-
         if ($permission == "retailer") {
             $this->load->view('inventory/index', $data);
         } else {
