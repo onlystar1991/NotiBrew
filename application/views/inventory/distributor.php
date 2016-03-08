@@ -97,7 +97,7 @@
 
 	    </div>
 	</main>
-    <?php var_dump($beers); die;
+    <?php var_dump($this->data['inventories']); die;
     ?>
 <?php
 	$this->load->view("_partials/footer.php");
@@ -137,7 +137,7 @@
 
             $("#inventory tbody").append(html);
 
-            var beers = JSON.parse(<?php echo json_encode($beers);?>);
+            var beers = JSON.parse(<?php echo json_encode($this->data['beers']);?>);
 
             $("#td-name").autoComplete({
                 source: beers
