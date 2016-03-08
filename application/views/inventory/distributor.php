@@ -135,7 +135,7 @@
 
             $("#inventory tbody").append(html);
 
-            var beers = JSON.parse(<?php echo json_encode($this->data['beers']);?>);
+            var beers = <?php echo json_encode($this->data['beers']);?>;
 
             $("#td-name").autoComplete({
                 source: beers
