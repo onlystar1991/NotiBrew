@@ -31,6 +31,7 @@ class Inventory extends CI_Controller{
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('minventory');
+        $this->load->model('mstore');
         $this->load->helper('url');
         $this->load->library("pagination");
         $this->load->library("session");
@@ -95,18 +96,11 @@ class Inventory extends CI_Controller{
 
         for($i = 0; $i < count($result1); $i++) {
             $object = $result1[$i];
-            /*
+            
             $store = new MStore();
             $store->store_id = $object->getObjectId();
             $store->store_name = $object->get("storeName");
-            $store->store_address = $object->get("storeAddress");
-            $store->store_from_monday = $object->get("fromMonday");
-            $store->store_to_monday = $object->get("toMonday");
 
-            $store->store_description = $object->get("storeDescription");
-            */
-            var_dump($object->getObjectId());
-            die;
             $resultArray1[] = $store;
         }
         return $resultArray1;
