@@ -92,8 +92,7 @@ class Inventory extends CI_Controller{
 
         $result1 = $query1->find();
         $resultArray1 = array();
-        var_dump($result1);
-        die;
+
         for($i = 0; $i < count($result1); $i++) {
             $object = $result1[$i];
             $store = new MStore();
@@ -104,6 +103,9 @@ class Inventory extends CI_Controller{
             $store->store_to_monday = $object->get("toMonday");
 
             $store->store_description = $object->get("storeDescription");
+            
+            var_dump($object->getObjectId());
+            die;
             $resultArray1[] = $store;
         }
         return $resultArray1;
