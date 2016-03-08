@@ -137,7 +137,7 @@
 
             var beers = <?php echo json_encode($this->data['beers']);?>;
 
-            $("#td-name").autoComplete({
+            $("#td-name").autocomplete({
                 source: beers
             })
             $("#saveBeer").click(function(e) {
