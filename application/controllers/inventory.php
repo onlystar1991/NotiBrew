@@ -92,13 +92,13 @@ class Inventory extends CI_Controller{
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
             $object = $result[$i];
-
             $store = new MStore();
             $store->store_id = $object->getObjectId();
             $store->store_name = $object->get("storeName");
             
-            $resultArray[] = $object;
+            $resultArray[] = $store;
         }
+
         return $resultArray;
     }
     
