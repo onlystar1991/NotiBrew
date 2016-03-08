@@ -89,12 +89,11 @@ class Inventory extends CI_Controller{
 
     private function getStoreList() {
         $query = new ParseQuery("Stores");
-        echo "ok";
-        die;
-        $result = $query->find();
-        $resultArray = array();
-        for($i = 0; $i < count($result); $i++) {
-            $object = $result[$i];
+
+        $result1 = $query->find();
+        $resultArray1 = array();
+        for($i = 0; $i < count($result1); $i++) {
+            $object = $result1[$i];
             $store = new MStore();
             $store->store_id = $object->getObjectId();
             $store->store_name = $object->get("storeName");
@@ -106,9 +105,11 @@ class Inventory extends CI_Controller{
                 $store->store_logo = $object->get("storeIcon");
             }
             $store->store_description = $object->get("storeDescription");
-            $resultArray[] = $store;
+            $resultArray1[] = $store;
         }
-        return $resultArray;
+        echo "ok";
+        die;
+        return $resultArray1;
     }
     
     private function getBeerList() {
