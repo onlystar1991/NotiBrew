@@ -88,9 +88,9 @@ class Inventory extends CI_Controller{
     }
 
     private function getStoreList() {
-        $query = new ParseQuery("Stores");
+        $query1 = new ParseQuery("Stores");
 
-        $result1 = $query->find();
+        $result1 = $query1->find();
         $resultArray1 = array();
         for($i = 0; $i < count($result1); $i++) {
             $object = $result1[$i];
@@ -101,14 +101,11 @@ class Inventory extends CI_Controller{
             $store->store_from_monday = $object->get("fromMonday");
             $store->store_to_monday = $object->get("toMonday");
 
-            if ($object->get("storeIcon")) {
-                $store->store_logo = $object->get("storeIcon");
-            }
             $store->store_description = $object->get("storeDescription");
             $resultArray1[] = $store;
+            echo "ok";
+            die;
         }
-        echo "ok";
-        die;
         return $resultArray1;
     }
     
