@@ -73,7 +73,7 @@ class Inventory extends CI_Controller{
         $this->data['page'] = "inventory";
 
         $this->data['beers'] = $this->getBeerList();
-        
+
         $this->data['stores'] = $this->getStoreList();
 
         var_dump($this->data['stores']);
@@ -89,6 +89,8 @@ class Inventory extends CI_Controller{
 
     private function getStoreList() {
         $query = new ParseQuery("Stores");
+        echo "ok";
+        die;
         $result = $query->find();
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
