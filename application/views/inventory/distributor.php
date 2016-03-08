@@ -105,6 +105,14 @@
     $(function() {
         $("#addBeerButton").click(function() {
             var beers = <?php echo json_encode($this->data['stores']);?>;
+            var select_tag = "<select name='store_id'>";
+            var beerObjects = {};
+            for(var beer in beers) {
+                select_tag +=  "<option value='" + beers[beer].store_id + "'>" + beers[beer].store_name + "</option>";
+            }
+            select_tag += "</select>";
+            console.log(select_tag);
+            
             var html =  "<tr>" + 
                             "<td>" +
                                 "<input type='text' id='td-sku' value='' name='sku' />" + 
@@ -130,8 +138,8 @@
                                 "<input type='text' id='td-demand' value='' name='demand' />" +
                             "</td>" +
 
-                            "<td>" +
-                                "<input type='text' id='td-storeId' value='' name='storeId' />" +
+                            "<td>" + 
+                                select_tag +
                             "</td>" +
 
                             "<td>" +
