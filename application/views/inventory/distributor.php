@@ -31,6 +31,7 @@
                                 <th class="table--dsh__header">Quantity</th>
                                 <th class="table--dsh__header">Demand</th>
                                 <th class="table--dsh__header">Status</th>
+                                <th class="table--dsh__header"></th>
                             </tr>
                             <?php
                             $str = "";
@@ -103,6 +104,7 @@
 <script>
     $(function() {
         $("#addBeerButton").click(function() {
+            var beers = <?php echo json_encode($this->data['stores']);?>;
             var html =  "<tr>" + 
                             "<td>" +
                                 "<input type='text' id='td-sku' value='' name='sku' />" + 
@@ -127,7 +129,11 @@
                             "<td>" +
                                 "<input type='text' id='td-demand' value='' name='demand' />" +
                             "</td>" +
-                            
+
+                            "<td>" +
+                                "<input type='text' id='td-storeId' value='' name='storeId' />" +
+                            "</td>" +
+
                             "<td>" +
                                 "<a href='#'' id='saveBeer' class='button secondary' style='margin: 0;'> Save </a>" +
                             "</td>" +

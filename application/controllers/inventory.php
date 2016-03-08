@@ -74,12 +74,30 @@ class Inventory extends CI_Controller{
 
         $this->data['beers'] = $this->getBeerList();
 
+        $this->data['stores'] = $this->getStoreList();
+
         if ($permission == "retailer") {
             $this->load->view('inventory/index', $data);
         } else {
 
             $this->load->view('inventory/distributor', $data);
         }
+    }
+
+    private function getStoreList() {
+        $query = new ParseQuery("Stores");
+        $result = $query->find();
+        $resultArray = array();
+        for($i = 0; $i < count($result); $i++) {
+            $object = $result[$i];
+
+            $store = new MStore();
+            $store->store_id = $object->getObjectId();
+            $store->store_name = $object->get("storeName");
+            
+            $resultArray[] = $object;
+        }
+        return $resultArray;
     }
     
     private function getBeerList() {
