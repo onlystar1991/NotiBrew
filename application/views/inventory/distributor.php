@@ -135,6 +135,11 @@
                         "</tr>";
 
             $("#inventory tbody").append(html);
+            var beers = JSON.parse(<?= json_encode($beers);?>);
+
+            $("#td-name").autoComplete({
+                source: beers
+            })
             $("#saveBeer").click(function(e) {
                 var isValid = true;
                 if ($.isNumeric($("#td-sku").val()) && $.isNumeric($("#td-price").val()) && $.isNumeric($("#td-quantity").val()) && $.isNumeric($("#td-demand").val())) {
