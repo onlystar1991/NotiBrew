@@ -284,7 +284,7 @@ class Inventory extends CI_Controller{
 
     public function sendPushNotification($deviceToken, $message) {
 
-        $passphrase = 'notibrew';
+        $passphrase = 'Notibrew';
         $ctx = stream_context_create();
     
         stream_context_set_option($ctx, 'ssl', 'local_cert', PEM_LOC);
@@ -294,35 +294,28 @@ class Inventory extends CI_Controller{
         // Open a connection to the APNS server
         //'ssl://gateway.push.apple.com:2195'
         // tls://gateway.sandbox.push.apple.com:2195
-        $fp = stream_socket_client(
-        'tls://gateway.sandbox.push.apple.com:2195', $err,
-        $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+        $fp = stream_socket_client( 'ssl://gateway.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+        // $fp = stream_socket_client( 'tls://gateway.sandbox.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
        
         if (!$fp)
         {
-            //fclose($fp);
-         //exit("Failed to connect: $err $errstr" . PHP_EOL);
-         echo "Error Ocurred";
-         return false;
-        }
-        else
-        {
-             //echo "Success";
-             //echo 'Connected to APNS' . PHP_EOL;
-             
-             // Create the payload body
-             $body['aps'] = array(
-              'alert' => array(
-                'title'=>'Alert title',
-                'body'=>$message
+            echo "Error Ocurred";
+            return false;
+        } else {
+            $body['aps'] = array(
+                    'alert' => array(
+                    'title'=>'Alert title',
+                    'body'=>$message
                 ),
-              'sound' => 'BeerSound.wav',
-              'Person' =>array(
-                'userId'=>'test_id12345',
-                'name'=>'Test name push',
-                'image'=>'Test image'
+                'sound' => 'BeerSound.wav',
+                'Person' =>array(
+                    'userId'=>'test_id12345',
+                    'name'=>'Test name push',
+                    'image'=>'Test image'
                 )
-              );
+            );
              
              $body['message'] = 'notification_type';
              // Encode the payload as JSON
