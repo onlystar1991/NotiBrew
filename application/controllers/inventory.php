@@ -270,12 +270,17 @@ class Inventory extends CI_Controller{
             for($i = 0; $i < count($devices); $i++) {
                 $object = $devices[$i];
                 $deviceToken = $object->get("deviceToken");
+                var_dump($deviceToken);
+                echo "<br>";
+                /*
                 if ($deviceToken) {
                     if (!$this->sendPushNotification($deviceToken, $alert)) {
                         die("fail");
                     }
                 }
+                */
             }
+            die;
             redirect("inventory");
         } catch (ParseException $e) {
             die(print_r($e));
