@@ -262,7 +262,7 @@ class Inventory extends CI_Controller{
                 $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
             }
 
-            $query = new ParseQuery("_Installation");
+            $query = new ParseQuery("Installation");
             $query->EqualTo("appName", 'NotiBrew');
             $devices = $query->find(true);
             // $query = ParseInstallation::query();
