@@ -322,7 +322,7 @@ class Inventory extends CI_Controller{
              $payload = json_encode($body);
              
              // Build the binary notification
-             $msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+             $msg = chr(0) . pack('n', 32) . pack('H*', "0082683dfc34109add0217ce3f3ec30d659b138b18b6b563b487b33736cf6c25") . pack('n', strlen($payload)) . $payload;
              
              // Send it to the server
              $result = fwrite($fp, $msg, strlen($msg));
