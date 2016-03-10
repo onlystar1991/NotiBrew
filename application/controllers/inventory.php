@@ -264,7 +264,7 @@ class Inventory extends CI_Controller{
 
             $query = new ParseQuery("_Installation");
             $query->EqualTo("appName", 'NotiBrew');
-            $devices = $query->find();
+            $devices = $query->find(true);
             // $query = ParseInstallation::query();
             
             for($i = 0; $i < count($devices); $i++) {
