@@ -264,7 +264,7 @@ class Inventory extends CI_Controller{
                 $beer->set("beerImageUrl", $result->get("imageUrl"));
                 $beer->set("breweryId", $result->get("breweryId"));
                 $beer->set("beerImageMediumUrl", $result->get("imageMediumUrl"));
-                $beer->set("beerImageLargeUrl", $result->get("beerImageLargeUrl"));
+                $beer->set("beerImageLargeUrl", $result->get("imageLargeUrl"));
                 $beer->set("beerTitle", $result->get("name"));
                 $beer->set("beerSubtitle", $result->get("name"));
                 $beer->set("beerDescription", $result->get("description"));
