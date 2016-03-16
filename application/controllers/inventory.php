@@ -31,6 +31,7 @@ class Inventory extends CI_Controller{
         parent::__construct();
         ParseClient::initialize(self::$app_id, self::$rest_key, self::$master_key);
         $this->load->model('minventory');
+        $this->load->model('mstore');
         $this->load->helper('url');
         $this->load->library("pagination");
         $this->load->library("session");
@@ -85,6 +86,7 @@ class Inventory extends CI_Controller{
     }
 
     private function getStoreList() {
+<<<<<<< HEAD
         $query = new ParseQuery("Stores");
         $result = $query->find();
         $resultArray = array();
@@ -94,6 +96,23 @@ class Inventory extends CI_Controller{
             $resultArray[] = $object->get("beerTitle");
         }
         return $resultArray;
+=======
+        $query1 = new ParseQuery("Stores");
+
+        $result1 = $query1->find();
+        $resultArray1 = array();
+
+        for($i = 0; $i < count($result1); $i++) {
+            $object = $result1[$i];
+            
+            $store = new MStore();
+            $store->store_id = $object->getObjectId();
+            $store->store_name = $object->get("storeName");
+
+            $resultArray1[] = $store;
+        }
+        return $resultArray1;
+>>>>>>> da958efae748dee7b0c30e55246a5d9ea37bc5f7
     }
     
     private function getBeerList() {
@@ -232,6 +251,7 @@ class Inventory extends CI_Controller{
         $distributor = $this->input->post("distributor");
         $quantity = $this->input->post("quantity");
         $demand = $this->input->post("demand");
+        $storeId = $this->input->post("store_id");
 
         $inventory = new ParseObject("Inventory");
         
@@ -242,6 +262,7 @@ class Inventory extends CI_Controller{
         $inventory->set("inventoryQuantity", (int)$quantity);
         $inventory->set("inventoryDemand", (int)$demand);
         $inventory->set("createdBy", $this->session->userdata['permission']);
+        $inventory->set("storeId", $storeId);
 
         try {
             $inventory->save();
@@ -267,6 +288,7 @@ class Inventory extends CI_Controller{
                         die("fail");
                     }
                 }
+                
             }
             redirect("inventory");
         } catch (ParseException $e) {
@@ -276,7 +298,7 @@ class Inventory extends CI_Controller{
 
     public function sendPushNotification($deviceToken, $message) {
 
-        $passphrase = 'notibrew';
+        $passphrase = 'Notibrew';
         $ctx = stream_context_create();
     
         stream_context_set_option($ctx, 'ssl', 'local_cert', PEM_LOC);
@@ -286,35 +308,28 @@ class Inventory extends CI_Controller{
         // Open a connection to the APNS server
         //'ssl://gateway.push.apple.com:2195'
         // tls://gateway.sandbox.push.apple.com:2195
-        $fp = stream_socket_client(
-        'tls://gateway.sandbox.push.apple.com:2195', $err,
-        $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+        // $fp = stream_socket_client( 'ssl://gateway.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+
+        $fp = stream_socket_client( 'tls://gateway.sandbox.push.apple.com:2195', $err, $errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
        
         if (!$fp)
         {
-            //fclose($fp);
-         //exit("Failed to connect: $err $errstr" . PHP_EOL);
-         echo "Error Ocurred";
-         return false;
-        }
-        else
-        {
-             //echo "Success";
-             //echo 'Connected to APNS' . PHP_EOL;
-             
-             // Create the payload body
-             $body['aps'] = array(
-              'alert' => array(
-                'title'=>'Alert title',
-                'body'=>$message
+            echo "Error Ocurred";
+            return false;
+        } else {
+            $body['aps'] = array(
+                    'alert' => array(
+                    'title'=>'Alert title',
+                    'body'=>$message
                 ),
-              'sound' => 'BeerSound.wav',
-              'Person' =>array(
-                'userId'=>'test_id12345',
-                'name'=>'Test name push',
-                'image'=>'Test image'
+                'sound' => 'BeerSound.wav',
+                'Person' =>array(
+                    'userId'=>'test_id12345',
+                    'name'=>'Test name push',
+                    'image'=>'Test image'
                 )
-              );
+            );
              
              $body['message'] = 'notification_type';
              // Encode the payload as JSON
