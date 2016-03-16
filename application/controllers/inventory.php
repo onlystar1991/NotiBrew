@@ -256,10 +256,32 @@ class Inventory extends CI_Controller{
         try {
             $query = new ParseQuery("BreweryBeers");
             $query->equalTo("name", $name);
-            $result = $query->find();
-            $inventory->save();
+            $result = $query->first();
             
             if ($result) {
+                $beer = new ParseObject("Beer");
+                $beer->set("beerStyle", $result->get("styleName"));
+                $beer->set("beerImageUrl", $result->get("imageUrl"));
+                $beer->set("breweryId", $result->get("breweryId"));
+                $beer->set("beerImageMediumUrl", $result->get("imageMediumUrl"));
+                $beer->set("beerImageLargeUrl", $result->get("beerImageLargeUrl"));
+                $beer->set("beerTitle", $result->get("name"));
+                $beer->set("beerSubtitle", $result->get("name"));
+                $beer->set("beerDescription", $result->get("description"));
+                $beer->set("beerCity", $result->get("beerCity"));
+                $beer->set("beerCreator", $this->session->userdata['username']);
+                
+                $beer->set("beerTaxPrice", $price);
+                $beer->set("beerItemprice", $price);
+                $beer->set("beerDeliveryPrice", $price);
+
+                $beer->save();
+                $inventory->set("beerId", $beer);
+                // $inventory->setAssociativeArray("beerId", array('__type' => 'Pointer', 'className' => 'Beer', 'objectId' => $beer->getObjectId()));
+
+                $inventory->set("flagged", false);
+                $inventory->save();
+
                 if ($this->session->userdata['permission'] == "bar") {
                     $alert = $name . " is now on tap @ " . $this->session->userdata['username'];
                 } else if ($this->session->userdata['permission'] == "brewery") {
@@ -284,6 +306,9 @@ class Inventory extends CI_Controller{
                     }
                     
                 }
+            } else {
+                $inventory->set("flagged", true);
+                $inventory->save();
             }
             redirect("inventory");
         } catch (ParseException $e) {
