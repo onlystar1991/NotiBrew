@@ -162,6 +162,7 @@ class Marketing extends CI_Controller{
             die("Exception Occured :".$ex->getMessage());
         }
     }
+    
     public function add() {
         $this->load->view('marketing/add');
     }

@@ -148,18 +148,13 @@
                         "</tr>";
 
             $("#inventory tbody").append(html);
-<<<<<<< HEAD
-            var beers = JSON.parse(<?= json_encode($beers);?>);
-/*
-            $("#td-name").autoComplete({
-=======
 
             var beers = <?php echo json_encode($this->data['beers']);?>;
 
             $("#td-name").autocomplete({
->>>>>>> da958efae748dee7b0c30e55246a5d9ea37bc5f7
                 source: beers
-            }) */
+            })
+            
             $("form").on('click', '#saveBeer', function(e) {
                 var isValid = true;
                 if ($.isNumeric($("#td-sku").val()) && $.isNumeric($("#td-price").val()) && $.isNumeric($("#td-quantity").val()) && $.isNumeric($("#td-demand").val())) {

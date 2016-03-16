@@ -86,17 +86,7 @@ class Inventory extends CI_Controller{
     }
 
     private function getStoreList() {
-<<<<<<< HEAD
-        $query = new ParseQuery("Stores");
-        $result = $query->find();
-        $resultArray = array();
-        for($i = 0; $i < count($result); $i++) {
-            $object = $result[$i];
 
-            $resultArray[] = $object->get("beerTitle");
-        }
-        return $resultArray;
-=======
         $query1 = new ParseQuery("Stores");
 
         $result1 = $query1->find();
@@ -112,17 +102,16 @@ class Inventory extends CI_Controller{
             $resultArray1[] = $store;
         }
         return $resultArray1;
->>>>>>> da958efae748dee7b0c30e55246a5d9ea37bc5f7
     }
     
     private function getBeerList() {
-        $query = new ParseQuery("Beer");
+        $query = new ParseQuery("BreweryBeers");
         $result = $query->find();
         $resultArray = array();
         for($i = 0; $i < count($result); $i++) {
             $object = $result[$i];
 
-            $resultArray[] = $object->getObjectId();
+            $resultArray[] = $object->get('name');
         }
         return $resultArray;
     }
@@ -265,30 +254,36 @@ class Inventory extends CI_Controller{
         $inventory->set("storeId", $storeId);
 
         try {
+            $query = new ParseQuery("BreweryBeers");
+            $query->equalTo("name", $name);
+            $result = $query->find();
             $inventory->save();
-            if ($this->session->userdata['permission'] == "bar") {
-                $alert = $name . " is now on tap @ " . $this->session->userdata['username'];
-            } else if ($this->session->userdata['permission'] == "brewery") {
-                $alert = $name . " is available @ " . $this->session->userdata['username'];
-            } else {
-                $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
-            }
-
-            $query = new ParseQuery("_Installation");
-            // $query->EqualTo("appName", 'NotiBrew');
-            $devices = $query->find(true);
-            // $query = ParseInstallation::query();
             
-            for($i = 0; $i < count($devices); $i++) {
-                $object = $devices[$i];
-                $deviceToken = $object->get("deviceToken");
-                
-                if ($deviceToken) {
-                    if (!$this->sendPushNotification($deviceToken, $alert)) {
-                        die("fail");
-                    }
+            if ($result) {
+                if ($this->session->userdata['permission'] == "bar") {
+                    $alert = $name . " is now on tap @ " . $this->session->userdata['username'];
+                } else if ($this->session->userdata['permission'] == "brewery") {
+                    $alert = $name . " is available @ " . $this->session->userdata['username'];
+                } else {
+                    $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
                 }
+
+                $query = new ParseQuery("_Installation");
+                // $query->EqualTo("appName", 'NotiBrew');
+                $devices = $query->find(true);
+                // $query = ParseInstallation::query();
                 
+                for($i = 0; $i < count($devices); $i++) {
+                    $object = $devices[$i];
+                    $deviceToken = $object->get("deviceToken");
+                    
+                    if ($deviceToken) {
+                        if (!$this->sendPushNotification($deviceToken, $alert)) {
+                            die("fail");
+                        }
+                    }
+                    
+                }
             }
             redirect("inventory");
         } catch (ParseException $e) {
