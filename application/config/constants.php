@@ -27,7 +27,7 @@ define('DIR_WRITE_MODE', 0777);
 |
 */
 
-define('PARSE_SDK_INC', $_SERVER['DOCUMENT_ROOT'].'/parse-php-sdk-master/autoload.php');
+define('PARSE_SDK_INC', $_SERVER['DOCUMENT_ROOT'].'/intense-plains-3648/parse-php-sdk-master/autoload.php');
 //   /intense-plains-3648
 
 define('PEM_LOC', $_SERVER['DOCUMENT_ROOT'].'/application/controllers/NotibrewDev.pem');

@@ -136,10 +136,25 @@
 
             $("#inventory tbody").append(html);
             var beers = JSON.parse(<?= json_encode($beers);?>);
-
+/*
             $("#td-name").autoComplete({
                 source: beers
+            }) */
+            $("form").on('click', '#saveBeer', function(e) {
+                var isValid = true;
+                if ($.isNumeric($("#td-sku").val()) && $.isNumeric($("#td-price").val()) && $.isNumeric($("#td-quantity").val()) && $.isNumeric($("#td-demand").val())) {
+                    isValid = true;
+                } else {
+                    isValid = false;
+                }
+                if (!isValid) {
+                    alert("Please input correct values");
+                    return false;
+                } else {
+                    $("#addBeerFrom").submit();
+                }
             })
+            /*
             $("#saveBeer").click(function(e) {
                 var isValid = true;
                 if ($.isNumeric($("#td-sku").val()) && $.isNumeric($("#td-price").val()) && $.isNumeric($("#td-quantity").val()) && $.isNumeric($("#td-demand").val())) {
@@ -154,6 +169,7 @@
                     $("#addBeerFrom").submit();
                 }
             });
+            */
         });
     })
 </script>

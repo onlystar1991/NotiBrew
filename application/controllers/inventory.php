@@ -74,12 +74,26 @@ class Inventory extends CI_Controller{
 
         $this->data['beers'] = $this->getBeerList();
 
+        $this->data['stores'] = $this->getStoreList();
+
         if ($permission == "retailer") {
             $this->load->view('inventory/index', $data);
         } else {
 
             $this->load->view('inventory/distributor', $data);
         }
+    }
+
+    private function getStoreList() {
+        $query = new ParseQuery("Stores");
+        $result = $query->find();
+        $resultArray = array();
+        for($i = 0; $i < count($result); $i++) {
+            $object = $result[$i];
+
+            $resultArray[] = $object->get("beerTitle");
+        }
+        return $resultArray;
     }
     
     private function getBeerList() {
@@ -89,7 +103,7 @@ class Inventory extends CI_Controller{
         for($i = 0; $i < count($result); $i++) {
             $object = $result[$i];
 
-            $resultArray[] = $object->get("beerTitle");
+            $resultArray[] = $object->getObjectId();
         }
         return $resultArray;
     }
@@ -240,13 +254,14 @@ class Inventory extends CI_Controller{
             }
 
             $query = new ParseQuery("_Installation");
-            $query->EqualTo("appName", 'NotiBrew');
+            // $query->EqualTo("appName", 'NotiBrew');
             $devices = $query->find(true);
             // $query = ParseInstallation::query();
             
             for($i = 0; $i < count($devices); $i++) {
                 $object = $devices[$i];
                 $deviceToken = $object->get("deviceToken");
+                
                 if ($deviceToken) {
                     if (!$this->sendPushNotification($deviceToken, $alert)) {
                         die("fail");
