@@ -136,13 +136,13 @@ class Store extends CI_Controller{
             $mstore->store_to_sunday = $store->get("toSunday");
 
             if ($store->get("storeIcon")) {
-                $mstore->store_logo = $store->get("storeIcon")->getURL();
+                $mstore->store_logo = $store->get("storeIcon");
             }
             if ($store->get("storeImage1")) {
-                $mstore->store_image1 =  $store->get("storeImage1")->getURL();    
+                $mstore->store_image1 =  $store->get("storeImage1");    
             }
             if ($store->get("storeImage2")) {
-                $mstore->store_image2 =  $store->get("storeImage2")->getURL();    
+                $mstore->store_image2 =  $store->get("storeImage2");    
             }
             
             $this->data['store'] = $mstore;
