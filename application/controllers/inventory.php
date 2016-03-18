@@ -260,24 +260,38 @@ class Inventory extends CI_Controller{
             
             if ($result) {
                 $beer = new ParseObject("Beer");
-                $beer->set("beerStyle", $result->get("styleName"));
-                $beer->set("beerImageUrl", $result->get("imageUrl"));
                 $beer->set("breweryId", $result->get("breweryId"));
-                $beer->set("beerImageMediumUrl", $result->get("imageMediumUrl"));
-                $beer->set("beerImageLargeUrl", $result->get("imageLargeUrl"));
-                $beer->set("beerTitle", $result->get("name"));
-                $beer->set("beerSubtitle", $result->get("name"));
-                $beer->set("beerDescription", $result->get("description"));
                 $beer->set("beerCity", $result->get("beerCity"));
-                $beer->set("beerCreator", $this->session->userdata['username']);
-                
-                $beer->set("beerTaxPrice", $price);
-                $beer->set("beerItemprice", $price);
-                $beer->set("beerDeliveryPrice", $price);
+                $beer->set("fgMax", $result->get("fgMax"));
+                $beer->set("fgMin", $result->get("fgMin"));
+                $beer->set("locality", $result->get("locality"));
+                $beer->set("locality", $result->get("locality"));
+                $beer->set("srmMin", $result->get("srmMin"));
+                $beer->set("srmMax", $result->get("srmMax"));
+                $beer->set("ibuMax", $result->get("ibuMax"));
+                $beer->set("ibuMin", $result->get("ibuMin"));
+                $beer->set("price", $price);
+                $beer->set("name", $result->get("name"));
+                $beer->set("creator", $this->session->userdata['username']);
+                $beer->set("latitude", $result->get("latitude"));
+                $beer->set("longitude", $result->get("longitude"));
+                $beer->set("abvMax", $result->get("abvMax"));
+                $beer->set("abvMin", $result->get("abvMin"));
+                $beer->set("abv", $result->get("abv"));
+                $beer->set("imageLargeUrl", $result->get("imageLargeUrl"));
+                $beer->set("imageUrl", $result->get("imageUrl"));
+                $beer->set("deliveryPrice", $price);
+                $beer->set("styleShortName", $result->get("styleShortName"));
+                $beer->set("nameDisplay", $result->get("nameDisplay"));
+                $beer->set("ogMin", $result->get("ogMin"));
+                $beer->set("ibu", $result->get("ibu"));
+                $beer->set("styleName", $result->get("styleName"));
+                $beer->set("description", $result->get("description"));
+                $beer->set("taxPrice", $price);
+                $beer->set("imageMediumUrl", $result->get("imageMediumUrl"));
 
                 $beer->save();
                 $inventory->set("beerId", $beer);
-                // $inventory->setAssociativeArray("beerId", array('__type' => 'Pointer', 'className' => 'Beer', 'objectId' => $beer->getObjectId()));
 
                 $inventory->set("flagged", false);
                 $inventory->save();
@@ -289,22 +303,16 @@ class Inventory extends CI_Controller{
                 } else {
                     $alert = $name . " is now available at " . $this->session->userdata['username'] . "'s Liquors";
                 }
-
                 $query = new ParseQuery("_Installation");
-                // $query->EqualTo("appName", 'NotiBrew');
                 $devices = $query->find(true);
-                // $query = ParseInstallation::query();
-                
                 for($i = 0; $i < count($devices); $i++) {
                     $object = $devices[$i];
                     $deviceToken = $object->get("deviceToken");
-                    
                     if ($deviceToken) {
                         if (!$this->sendPushNotification($deviceToken, $alert)) {
                             die("fail");
                         }
                     }
-                    
                 }
             } else {
                 $inventory->set("flagged", true);
