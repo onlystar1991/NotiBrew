@@ -187,7 +187,7 @@ class Store extends CI_Controller{
             $store_icon = ParseFile::createFromData(file_get_contents($_FILES['store_icon']['tmp_name']), $_FILES['store_icon']['name']);
             $store_icon->save();
             var_dump($store_icon);
-            
+            die;
             $store->set("storeIcon", $store_icon->getUrl());
         }
 
