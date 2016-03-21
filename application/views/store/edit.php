@@ -464,7 +464,6 @@ $(function() {
     $("#file_store_image2").change(function() {
         $("#div-image2-upload").text("Store Image2: Selected!");
         $("#image2_title").text($(this).val());
-        alert($(this).val());
     });
 });
 </script>

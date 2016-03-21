@@ -186,24 +186,18 @@ class Store extends CI_Controller{
         if ($_FILES['store_icon']['name']) {
             $store_icon = ParseFile::createFromData(file_get_contents($_FILES['store_icon']['tmp_name']), $_FILES['store_icon']['name']);
             $store_icon->save();
-            var_dump($store_icon);
-            die;
-            $store->set("storeIcon", $store_icon->getUrl());
+            $store->set("storeIcon", $store_icon->getURL());
         }
 
         if ($_FILES['store_image1']['name']) {
             $store_image1 = ParseFile::createFromData(file_get_contents($_FILES['store_image1']['tmp_name']), $_FILES['store_image1']['name']);
             $store_image1->save();
-            $store->set("storeImage1", $store_image1->getUrl());
-            var_dump($store_image1);
-            die;
+            $store->set("storeImage1", $store_image1->getURL());
         }
         if ($_FILES['store_image2']['name']) {
             $store_image2 = ParseFile::createFromData(file_get_contents($_FILES['store_image2']['tmp_name']), $_FILES['store_image2']['name']);
             $store_image2->save();
-            $store->set("storeImage2", $store_image2->getUrl());
-            var_dump($store_image2);
-            die;
+            $store->set("storeImage2", $store_image2->getURL());
         }
 
         try {
