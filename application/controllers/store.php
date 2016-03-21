@@ -195,14 +195,14 @@ class Store extends CI_Controller{
             $store_image1 = ParseFile::createFromData(file_get_contents($_FILES['store_image1']['tmp_name']), $_FILES['store_image1']['name']);
             $store_image1->save();
             $store->set("storeImage1", $store_image1->getUrl());
-            var_dump($store_icon);
+            var_dump($store_image1);
             die;
         }
         if ($_FILES['store_image2']['name']) {
             $store_image2 = ParseFile::createFromData(file_get_contents($_FILES['store_image2']['tmp_name']), $_FILES['store_image2']['name']);
             $store_image2->save();
             $store->set("storeImage2", $store_image2->getUrl());
-            var_dump($store_icon);
+            var_dump($store_image2);
             die;
         }
 
